@@ -3,7 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OceanStore.DataAccesLayer", "OceanStore.DataAccesLayer\OceanStore.DataAccesLayer.csproj", "{0C2D3402-BBF1-4CBD-89B6-BADC9FD413D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OceanStore.BusinessLayer", "OceanStore.BusinessLayer\OceanStore.BusinessLayer.csproj", "{688E07C9-3BFA-4BA3-A047-60DA529302E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OceanStore", "OceanStore\OceanStore.csproj", "{B878FDE0-BD5D-496C-A119-ACCB1ECEC743}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C2D3402-BBF1-4CBD-89B6-BADC9FD413D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C2D3402-BBF1-4CBD-89B6-BADC9FD413D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C2D3402-BBF1-4CBD-89B6-BADC9FD413D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C2D3402-BBF1-4CBD-89B6-BADC9FD413D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{688E07C9-3BFA-4BA3-A047-60DA529302E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{688E07C9-3BFA-4BA3-A047-60DA529302E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{688E07C9-3BFA-4BA3-A047-60DA529302E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{688E07C9-3BFA-4BA3-A047-60DA529302E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B878FDE0-BD5D-496C-A119-ACCB1ECEC743}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B878FDE0-BD5D-496C-A119-ACCB1ECEC743}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B878FDE0-BD5D-496C-A119-ACCB1ECEC743}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B878FDE0-BD5D-496C-A119-ACCB1ECEC743}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
