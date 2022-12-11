@@ -8,6 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OceanStore.DataAccesLayer.DataContext;
+using OceanStore.BusinessLayer;
+using Microsoft.EntityFrameworkCore;
+using OceanStore.BusinessLayer.Managers;
 
 namespace OceanStore
 {
@@ -24,6 +28,11 @@ namespace OceanStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<AppDbCotext>(option =>
+            {
+                option.UseSqlServer(Configuration.GetConnectionString("Context"));
+            });
+            services.AddScoped<ProductManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
