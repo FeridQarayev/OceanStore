@@ -12,51 +12,41 @@ using System.Threading.Tasks;
 namespace OceanStore.BusinessLayer.Repositorys
 {
     public class GenericRepository<TEntity, TContext> : IGenericRepository<TEntity>
-        where TEntity : class, IEntity, new()
-        where TContext : DbContext, new()
+        where TEntity : class, IEntity
+        where TContext : DbContext
     {
-        public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null)
+        private readonly TContext _db;
+        public GenericRepository(TContext db)
         {
-            using (TContext context = new TContext())
-            {
-                return filter == null
-                    ? await context.Set<TEntity>().ToListAsync()
-                    : await context.Set<TEntity>().Where(filter).ToListAsync();
-            }
+            _db = db;
+        }
+        public virtual async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null)
+        {
+            return filter == null
+                ? await _db.Set<TEntity>().ToListAsync()
+                : await _db.Set<TEntity>().Where(filter).ToListAsync();
         }
         public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter = null)
         {
-            using (TContext context = new TContext())
-            {
-                return filter == null
-                    ? await context.Set<TEntity>().FirstOrDefaultAsync()
-                    : await context.Set<TEntity>().Where(filter).FirstOrDefaultAsync();
-            }
+            return filter == null
+                ? await _db.Set<TEntity>().FirstOrDefaultAsync()
+                : await _db.Set<TEntity>().Where(filter).FirstOrDefaultAsync();
         }
         public void AddAsync(TEntity entity)
         {
-            using (TContext context = new TContext())
-            {
-                var addedEntity = context.Entry(entity);
-                addedEntity.State = EntityState.Added;
-            }
+            var addedEntity = _db.Entry(entity);
+            addedEntity.State = EntityState.Added;
         }
         public void UpdateAsync(TEntity entity)
         {
-            using (TContext context = new TContext())
-            {
-                var addedEntity = context.Entry(entity);
-                addedEntity.State = EntityState.Modified;
-            }
+            var addedEntity = _db.Entry(entity);
+            addedEntity.State = EntityState.Modified;
         }
 
         public void DeleteAsync(TEntity entity)
         {
-            using (TContext context = new TContext())
-            {
-                var addedEntity = context.Entry(entity);
-                addedEntity.State = EntityState.Deleted;
-            }
+            var addedEntity = _db.Entry(entity);
+            addedEntity.State = EntityState.Deleted;
         }
     }
 }

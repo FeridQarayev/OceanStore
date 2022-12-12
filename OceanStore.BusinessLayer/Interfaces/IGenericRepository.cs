@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace OceanStore.BusinessLayer.Interfaces
 {
-    public interface IGenericRepository<TEntity> where TEntity : class,IEntity, new()
+    public interface IGenericRepository<TEntity> where TEntity : class, IEntity
     {
-        Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity,bool>> filter=null);
+        Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null);
         Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter = null);
         void AddAsync(TEntity entity);
         void UpdateAsync(TEntity entity);

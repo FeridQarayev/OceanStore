@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OceanStore.DataAccesLayer.Models
 {
-    public class Product
+    public class Product:IEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

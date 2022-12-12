@@ -12,6 +12,8 @@ using OceanStore.DataAccesLayer.DataContext;
 using OceanStore.BusinessLayer;
 using Microsoft.EntityFrameworkCore;
 using OceanStore.BusinessLayer.Managers;
+//using OceanStore.BusinessLayer.Interfaces;
+//using OceanStore.BusinessLayer.Repositorys;
 
 namespace OceanStore
 {
@@ -33,6 +35,7 @@ namespace OceanStore
                 option.UseSqlServer(Configuration.GetConnectionString("Context"));
             });
             services.AddScoped<ProductManager>();
+            services.AddScoped<UserManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

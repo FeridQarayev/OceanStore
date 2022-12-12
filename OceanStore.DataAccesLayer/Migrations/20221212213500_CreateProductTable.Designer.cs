@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OceanStore.DataAccesLayer.DataContext;
 
 namespace OceanStore.DataAccesLayer.Migrations
 {
     [DbContext(typeof(AppDbCotext))]
-    partial class AppDbCotextModelSnapshot : ModelSnapshot
+    [Migration("20221212213500_CreateProductTable")]
+    partial class CreateProductTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,24 +36,6 @@ namespace OceanStore.DataAccesLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("OceanStore.DataAccesLayer.Models.User", b =>
-                {
-                    b.Property<int>("Idd")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Namee")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Surname")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Idd");
-
-                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,7 +12,7 @@ namespace OceanStore.Controllers
         {
             _productManager = productManager;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> IndexAsync()
         {
             var data = await _productManager.GettAllProduct();
             return View(data);
