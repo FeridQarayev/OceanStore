@@ -11,16 +11,16 @@ namespace OceanStore.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly UserManager _userManager;
-        public HomeController(UserManager userManager)
-        {
-            _userManager = userManager;
-        }
+        //private readonly UserAppManager _userManager;
+        //public HomeController(UserAppManager userManager)
+        //{
+        //    _userManager = userManager;
+        //}
 
         public async Task<IActionResult> Index()
         {
-            var data = await _userManager.GetUsers();
-            return View(data);
+            //var data = await _userManager.GetUsers();
+            return View();
         }
     }
 }

@@ -35,7 +35,7 @@ namespace OceanStore
                 option.UseSqlServer(Configuration.GetConnectionString("Context"));
             });
             services.AddScoped<ProductManager>();
-            services.AddScoped<UserManager>();
+            services.AddScoped<UserAppManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

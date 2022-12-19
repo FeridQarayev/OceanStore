@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using OceanStore.DataAccesLayer.Models;
@@ -10,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace OceanStore.DataAccesLayer.DataContext
 {
-    public class AppDbCotext : DbContext
+    public class AppDbCotext : IdentityDbContext<User>
     {
         public AppDbCotext(DbContextOptions<AppDbCotext> options) : base(options)
         {
 
         }
         public DbSet<Product> Products { get; set; }
-        public DbSet<User> Users { get; set; }
+        //public DbSet<User> Users { get; set; }
     }
     //class DataContextFactory : IDesignTimeDbContextFactory<AppDbCotext>
     //{
