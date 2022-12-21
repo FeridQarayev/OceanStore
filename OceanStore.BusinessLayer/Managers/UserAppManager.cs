@@ -27,28 +27,68 @@ namespace OceanStore.BusinessLayer.Managers
         //{
         //    _db = db;
         //}
+        #region Index
         public async Task<List<UserVM>> GetAllUsers()
         {
             //var data = await GetAllAsync(x=>x.Surname=="Nesee");
             //return data;
-
-            List<User> users = await _userManager.Users.ToListAsync();
-            List<UserVM> userVMs = new ();
-            foreach (User user in users)
+            try
             {
-                UserVM userVM = new UserVM
+                List<User> users = await _userManager.Users.ToListAsync();
+                List<UserVM> userVMs = new();
+                foreach (User user in users)
                 {
-                    Id = user.Id,
-                    Name = user.Name,
-                    Surname = user.Surname,
-                    Username = user.UserName,
-                    Email = user.Email,
-                    IsDeactive = user.IsDeactive,
-                    Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault()
-                };
-                userVMs.Add(userVM);
+                    UserVM userVM = new UserVM
+                    {
+                        Id = user.Id,
+                        Name = user.Name,
+                        Surname = user.Surname,
+                        Username = user.UserName,
+                        Email = user.Email,
+                        IsDeactive = user.IsDeactive,
+                        Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault()
+                    };
+                    userVMs.Add(userVM);
+                }
+                return userVMs;
             }
-            return userVMs;
+            catch (Exception)
+            {
+                throw;
+            }
         }
+        #endregion
+
+        #region Create
+        public async Task<List<IdentityRole>> GetRoles()
+        {
+            try
+            {
+                return await _roleManager.Roles.ToListAsync();
+            }
+            catch { throw; }
+        }
+        public async Task<IEnumerable<IdentityError>> CreateUser(RegisterVM registerVM, string role)
+        {
+            try
+            {
+                User user = new User
+                {
+                    Name = registerVM.Name,
+                    Surname = registerVM.Surname,
+                    UserName = registerVM.Username,
+                    Email = registerVM.Email
+                };
+                IdentityResult identityResult = await _userManager.CreateAsync(user, registerVM.Password);
+                if (!identityResult.Succeeded)
+                {
+                    return identityResult.Errors;
+                }
+                await _userManager.AddToRoleAsync(user, role);
+                return null;
+            }
+            catch { throw; }
+        }
+        #endregion
     }
 }
