@@ -12,6 +12,8 @@ using OceanStore.DataAccesLayer.DataContext;
 using OceanStore.BusinessLayer;
 using Microsoft.EntityFrameworkCore;
 using OceanStore.BusinessLayer.Managers;
+using Microsoft.AspNetCore.Identity;
+using OceanStore.DataAccesLayer.Models;
 //using OceanStore.BusinessLayer.Interfaces;
 //using OceanStore.BusinessLayer.Repositorys;
 
@@ -34,7 +36,20 @@ namespace OceanStore
             {
                 option.UseSqlServer(Configuration.GetConnectionString("Context"));
             });
+            services.AddIdentity<User, IdentityRole>(IdentityOptions =>
+            {
+                IdentityOptions.Password.RequiredLength = 8;
+                IdentityOptions.Password.RequireNonAlphanumeric = false;
+                IdentityOptions.Password.RequireUppercase = true;
+                IdentityOptions.Password.RequireLowercase = true;
+                IdentityOptions.Lockout.MaxFailedAccessAttempts = 4;
+                IdentityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromDays(1);
+                IdentityOptions.Lockout.AllowedForNewUsers = true;
+                IdentityOptions.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                IdentityOptions.User.RequireUniqueEmail = true;
+            }).AddDefaultTokenProviders().AddEntityFrameworkStores<AppDbCotext>();
             services.AddScoped<ProductManager>();
+            services.AddScoped<AccountManager>();
             services.AddScoped<UserAppManager>();
         }
 
