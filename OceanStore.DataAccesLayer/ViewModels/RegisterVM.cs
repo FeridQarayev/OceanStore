@@ -25,5 +25,6 @@ namespace OceanStore.DataAccesLayer.ViewModels
         [DataType(DataType.Password)]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
+        public bool RememberMe { get; set; }
     }
 }

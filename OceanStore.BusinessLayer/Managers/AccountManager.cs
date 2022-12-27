@@ -34,17 +34,17 @@ namespace OceanStore.BusinessLayer.Managers
             {
                 return identityResult;
             }
-            await _signInManager.SignInAsync(appUser, true);
-            await _userManager.AddToRoleAsync(appUser, Helper.Roles.Member.ToString());
+            await _signInManager.SignInAsync(appUser, registerVM.RememberMe);
+            await _userManager.AddToRoleAsync(appUser, Helper.Roles.Admin.ToString());
             return identityResult;
         }
         public async Task<User> FindBynNameUser(string username)
         {
             return await _userManager.FindByNameAsync(username);
         }
-        public async Task<SignInResult> PasswordCheck(User user,string password)
+        public async Task<SignInResult> PasswordCheck(User user,string password,bool rememberMe)
         {
-            return await _signInManager.PasswordSignInAsync(user, password, true, true);
+            return await _signInManager.PasswordSignInAsync(user, password, rememberMe, true);
         }
         public async Task SignOut()
         {

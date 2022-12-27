@@ -10,10 +10,18 @@ namespace OceanStore.Controllers
     public class AccountController : Controller
     {
         private readonly AccountManager _accountManager;
+        public AccountController(AccountManager accountManager)
+        {
+            _accountManager= accountManager;
+        }
     
         #region Register
         public async Task<IActionResult> Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View();
         }
         [HttpPost]
@@ -41,6 +49,10 @@ namespace OceanStore.Controllers
         #region Login
         public async Task<IActionResult> Login()
         {
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
             return View();
         }
         [HttpPost]
@@ -53,10 +65,10 @@ namespace OceanStore.Controllers
                 ModelState.AddModelError("", "UserName or Password is wrong !");
                 return View();
             }
-            Microsoft.AspNetCore.Identity.SignInResult signInResult = await _accountManager.PasswordCheck(appUser,loginVM.Password);
+            Microsoft.AspNetCore.Identity.SignInResult signInResult = await _accountManager.PasswordCheck(appUser,loginVM.Password,loginVM.RememberMe);
             if (signInResult.IsLockedOut)
             {
-                ModelState.AddModelError("", "Error cix get");
+                ModelState.AddModelError("", "1 day banned!");
                 return View();
             }
             if (!signInResult.Succeeded)

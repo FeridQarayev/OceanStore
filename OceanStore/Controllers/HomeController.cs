@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OceanStore.BusinessLayer.Managers;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace OceanStore.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class HomeController : Controller
     {
         //private readonly UserAppManager _userManager;
