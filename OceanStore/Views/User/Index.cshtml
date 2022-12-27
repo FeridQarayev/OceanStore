@@ -1,7 +1,52 @@
-﻿
+﻿@model List<UserVM>
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
+<!-- partial -->
+@*<div class="main-panel">*@
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Users</h4>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Surname</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (UserVM user in Model)
+                            {
+                                <tr>
+                                    <td>@user.Name</td>
+                                    <td>@user.Surname</td>
+                                    <td>@user.Username</td>
+                                    <td>@user.Email</td>
+                                    <td>@user.Role</td>
+                                    <td>
+                                        <span class="@(user.IsDeactive? "text-danger" : "text-success")">@(user.IsDeactive ? "Deactive" : "Active")</span>
+                                    </td>
+                                    <td>
+                                        <a asp-action="ResetPassword" asp-route-id="@user.Id" class="badge badge-danger">Reset Password</a>
+                                        <a asp-action="Update" asp-route-id="@user.Id" class="badge badge-warning">Update</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*</div>*@
+<!-- content-wrapper ends -->

@@ -30,8 +30,6 @@ namespace OceanStore.BusinessLayer.Managers
         #region Index
         public async Task<List<UserVM>> GetAllUsers()
         {
-            //var data = await GetAllAsync(x=>x.Surname=="Nesee");
-            //return data;
             try
             {
                 List<User> users = await _userManager.Users.ToListAsync();

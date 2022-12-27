@@ -10,10 +10,15 @@ namespace OceanStore.Controllers
     public class UserController : Controller
     {
         private readonly UserAppManager _userAppManager;
+        public UserController(UserAppManager userAppManager)
+        {
+            _userAppManager = userAppManager;
+        }
+
         public async Task<IActionResult> Index()
         {
-            //List<UserVM> users = await _userAppManager.GetAllUsers();
-            return View();
+            List<UserVM> users = await _userAppManager.GetAllUsers();
+            return View(users);
         }
         public async Task<IActionResult> Create()
         {
