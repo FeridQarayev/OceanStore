@@ -10,7 +10,7 @@ namespace OceanStore.Controllers
     public class AccountController : Controller
     {
         private readonly AccountManager _accountManager;
-
+    
         #region Register
         public async Task<IActionResult> Register()
         {
@@ -74,6 +74,10 @@ namespace OceanStore.Controllers
         }
         //public async Task CreateRoles()
         //{
+        //    if (!await _roleManager.RoleExistsAsync(Helper.Roles.SuperAdmin.ToString()))
+        //    {
+        //        await _roleManager.CreateAsync(new IdentityRole { Name = Helper.Roles.SuperAdmin.ToString() });
+        //    }
         //    if (!await _roleManager.RoleExistsAsync(Helper.Roles.Admin.ToString()))
         //    {
         //        await _roleManager.CreateAsync(new IdentityRole { Name = Helper.Roles.Admin.ToString() });

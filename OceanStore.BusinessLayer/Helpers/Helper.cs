@@ -10,6 +10,7 @@ namespace OceanStore.BusinessLayer.Helpers
     {
         public enum Roles
         {
+            SuperAdmin,
             Admin,
             Member
         }
