@@ -25,10 +25,10 @@ namespace OceanStore.BusinessLayer.Managers
             var data = await GetAllAsync(x => x.Id == 1);
             return data;
         }
-        public override Task<List<Product>> GetAllAsync(Expression<Func<Product, bool>> filter = null)
-        {
-            //return base.GetAllAsync(filter);
-            return _db.Products.Where(x => x.Price == 12).ToListAsync();
-        }
+        //public override Task<List<Product>> GetAllAsync(Expression<Func<Product, bool>> filter = null)
+        //{
+        //    //return base.GetAllAsync(filter);
+        //    return _db.Products.Where(x => x.Price == 12).ToListAsync();
+        //}
     }
 }

@@ -17,8 +17,7 @@ namespace OceanStore.DataAccesLayer.DataContext
         {
 
         }
-        public DbSet<Product> Products { get; set; }
-        //public DbSet<User> Users { get; set; }
+        //public DbSet<Product> Products { get; set; }
     }
     //class DataContextFactory : IDesignTimeDbContextFactory<AppDbCotext>
     //{
