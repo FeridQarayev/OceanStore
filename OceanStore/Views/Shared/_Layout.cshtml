@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="~/assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="~/assets/images/favicon.png" />
+    <Link rel="stylesheet" href="~/assets//css/MyStyle.css"/>
 </head>
 <body>
     <div class="container-scroller">
@@ -84,14 +85,14 @@
                     <span class="nav-link">Navigation</span>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="/home/index">
                         <span class="menu-icon">
                             <i class="mdi mdi-speedometer"></i>
                         </span>
-                        <span class="menu-title">Dashboard</span>
+                        <span class="menu-title">Menu</span>
                     </a>
                 </li>
-                <li class="nav-item menu-items">
+                @*<li class="nav-item menu-items">
                     <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <span class="menu-icon">
                             <i class="mdi mdi-laptop"></i>
@@ -130,16 +131,16 @@
                         </span>
                         <span class="menu-title">Charts</span>
                     </a>
-                </li>
+                </li>*@
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/icons/mdi.html">
+                    <a class="nav-link" asp-controller="User" asp-action="Index">
                         <span class="menu-icon">
                             <i class="mdi mdi-contacts"></i>
                         </span>
-                        <span class="menu-title">Icons</span>
+                        <span class="menu-title">Users</span>
                     </a>
                 </li>
-                <li class="nav-item menu-items">
+                @*<li class="nav-item menu-items">
                     <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
                         <span class="menu-icon">
                             <i class="mdi mdi-security"></i>
@@ -164,7 +165,7 @@
                         </span>
                         <span class="menu-title">Documentation</span>
                     </a>
-                </li>
+                </li>*@
             </ul>
         </nav>
         <!-- partial -->
@@ -392,5 +393,7 @@
     <!-- Custom js for this page -->
     <script src="~/assets/js/dashboard.js"></script>
     <!-- End custom js for this page -->
+    <script src="~/assets/js/MyScript.js"></script>
+    @*@RenderSection("Scripts",false)*@
 </body>
 </html>

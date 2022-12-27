@@ -20734,18 +20734,19 @@ div.tagsinput {
         .sidebar .nav .nav-item .nav-link .badge {
           margin-right: auto;
           margin-left: 1rem; }
-      .sidebar .nav .nav-item.active > .nav-link {
-        background: #0f1015;
-        position: relative; }
+.sidebar .nav .nav-item.active > .nav-link {
+}
         .sidebar .nav .nav-item.active > .nav-link:before {
-          content: "";
+         /* content: "";
           width: 3px;
           height: 100%;
           background: #0090e7;
           display: inline-block;
           position: absolute;
           left: 0;
-          top: 0; }
+          top: 0; */
+
+        }
         .sidebar .nav .nav-item.active > .nav-link .menu-title {
           color: #ffffff; }
         .sidebar .nav .nav-item.active > .nav-link i {

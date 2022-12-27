@@ -12,8 +12,8 @@ namespace OceanStore.Controllers
         private readonly UserAppManager _userAppManager;
         public async Task<IActionResult> Index()
         {
-            List<UserVM> users = await _userAppManager.GetAllUsers();
-            return View(users);
+            //List<UserVM> users = await _userAppManager.GetAllUsers();
+            return View();
         }
         public async Task<IActionResult> Create()
         {

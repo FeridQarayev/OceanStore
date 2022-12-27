@@ -49,10 +49,10 @@ namespace OceanStore.Controllers
         #region Login
         public async Task<IActionResult> Login()
         {
-            //if (User.Identity.IsAuthenticated)
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
         [HttpPost]
