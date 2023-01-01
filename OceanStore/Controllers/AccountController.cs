@@ -9,11 +9,13 @@ namespace OceanStore.Controllers
 {
     public class AccountController : Controller
     {
+        #region ctor
         private readonly AccountManager _accountManager;
         public AccountController(AccountManager accountManager)
         {
             _accountManager= accountManager;
         }
+        #endregion
     
         #region Register
         public async Task<IActionResult> Register()
@@ -83,11 +85,16 @@ namespace OceanStore.Controllers
             return RedirectToAction("Index", "Home");
         }
         #endregion
+
+        #region LogOut
         public async Task<IActionResult> Logout()
         {
             await _accountManager.SignOut();
             return RedirectToAction("Index", "Home");
         }
+        #endregion
+
+        #region CreateRoles
         //public async Task CreateRoles()
         //{
         //    if (!await _roleManager.RoleExistsAsync(Helper.Roles.SuperAdmin.ToString()))
@@ -103,5 +110,6 @@ namespace OceanStore.Controllers
         //        await _roleManager.CreateAsync(new IdentityRole { Name = Helper.Roles.Member.ToString() });
         //    }
         //}
+        #endregion
     }
 }
