@@ -1,0 +1,57 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@model RegisterVM
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Create new User</h4>
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label asp-for="Name"></label>
+                        <input accept="image/*" asp-for="Name" class="form-control">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Surname"></label>
+                        <input asp-for="Surname" class="form-control">
+                        <span asp-validation-for="Surname" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Username"></label>
+                        <input asp-for="Username" class="form-control">
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" class="form-control">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Role</label>
+                        <select name="role" class="form-control">
+                            @foreach (IdentityRole role in ViewBag.Roles)
+                            {
+                                <option value="@role.Name">@role.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password"></label>
+                        <input asp-for="Password" class="form-control">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ConfirmPassword"></label>
+                        <input asp-for="ConfirmPassword" class="form-control">
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <a asp-action="Index" class="btn btn-light">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
