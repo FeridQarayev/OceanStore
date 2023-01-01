@@ -15,5 +15,6 @@ namespace OceanStore.BusinessLayer.Interfaces
         void AddAsync(TEntity entity);
         void UpdateAsync(TEntity entity);
         void DeleteAsync(TEntity entity);
+        bool CheckActive(bool active);
     }
 }
