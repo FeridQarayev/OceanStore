@@ -59,6 +59,10 @@ namespace OceanStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM loginVM)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
             User appUser = await _accountManager.FindBynNameUser(loginVM.Username);
             if (appUser == null)
             {
