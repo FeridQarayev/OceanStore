@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OceanStore.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,SuperAdmin")]
     public class HomeController : Controller
     {
         //private readonly UserAppManager _userManager;

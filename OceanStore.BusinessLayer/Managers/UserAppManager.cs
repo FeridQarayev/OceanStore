@@ -135,9 +135,9 @@ namespace OceanStore.BusinessLayer.Managers
             return await _userManager.ResetPasswordAsync(user, token, newPassword);
         }
 
-        public async Task Activity(User user)
+        public async Task ActivityUser(User user)
         {
-            bool active = Helper.CheckActive(user.IsDeactive);
+            user.IsDeactive = Helper.CheckActive(user.IsDeactive);
             await UpdateUser(user);
         }
     }

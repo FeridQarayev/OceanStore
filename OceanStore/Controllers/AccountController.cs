@@ -71,6 +71,11 @@ namespace OceanStore.Controllers
                 ModelState.AddModelError("", "UserName or Password is wrong !");
                 return View();
             }
+            if (appUser.IsDeactive)
+            {
+                ModelState.AddModelError("", "This account has been deactivated");
+                return View();
+            }
             Microsoft.AspNetCore.Identity.SignInResult signInResult = await _accountManager.PasswordCheck(appUser,loginVM.Password,loginVM.RememberMe);
             if (signInResult.IsLockedOut)
             {

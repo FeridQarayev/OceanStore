@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OceanStore.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,SuperAdmin")]
     public class UserController : Controller
     {
         #region ctor
@@ -176,7 +176,7 @@ namespace OceanStore.Controllers
             {
                 return BadRequest();
             }
-            await _userAppManager.Activity(user);
+            await _userAppManager.ActivityUser(user);
             return RedirectToAction("Index");
         }
         #endregion
