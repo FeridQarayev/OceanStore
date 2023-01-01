@@ -27,7 +27,6 @@ namespace OceanStore.BusinessLayer.Managers
         //{
         //    _db = db;
         //}
-        #region Index
         public async Task<List<UserVM>> GetAllUsers()
         {
             try
@@ -55,9 +54,7 @@ namespace OceanStore.BusinessLayer.Managers
                 throw;
             }
         }
-        #endregion
 
-        #region Create
         public async Task<List<IdentityRole>> GetRoles()
         {
             try
@@ -66,6 +63,7 @@ namespace OceanStore.BusinessLayer.Managers
             }
             catch { throw; }
         }
+
         public async Task<IEnumerable<IdentityError>> CreateUser(RegisterVM registerVM, string role)
         {
             try
@@ -87,6 +85,16 @@ namespace OceanStore.BusinessLayer.Managers
             }
             catch { throw; }
         }
-        #endregion
+
+        public async Task<User> GetUserById(string id)
+        {
+            try
+            {
+                return await _userManager.FindByIdAsync(id);
+            }
+            catch { return null; }
+            }
+
+        public async Task<UserUpd>
     }
 }
