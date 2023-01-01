@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OceanStore.BusinessLayer.Managers;
 using OceanStore.DataAccesLayer.Models;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace OceanStore.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
         #region ctor

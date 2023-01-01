@@ -1,21 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
-using OceanStore.BusinessLayer.Repositorys;
-using OceanStore.DataAccesLayer.DataContext;
 using OceanStore.DataAccesLayer.Models;
 using OceanStore.DataAccesLayer.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace OceanStore.BusinessLayer.Managers
 {
     public class UserAppManager 
-        //: GenericRepository<User, AppDbCotext>
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -25,10 +19,6 @@ namespace OceanStore.BusinessLayer.Managers
             _roleManager = roleManager;
         }
 
-        //public UserAppManager(AppDbCotext db) : base(db)
-        //{
-        //    _db = db;
-        //}
         public async Task<List<UserVM>> GetAllUsers()
         {
             try
