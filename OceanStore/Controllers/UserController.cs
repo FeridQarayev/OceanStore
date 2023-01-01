@@ -5,7 +5,6 @@ using OceanStore.DataAccesLayer.Models;
 using OceanStore.DataAccesLayer.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace OceanStore.Controllers
 {
@@ -111,6 +110,54 @@ namespace OceanStore.Controllers
                 }
             }
             await _userAppManager.UpdateUser(user, userUpdateVM);
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region ResetPassword
+        public async Task<IActionResult> ResetPassword(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            User user = await _userAppManager.GetUserById(id);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordVM resetPasswordVM, string id)
+        {
+            #region From Get
+            if (id == null)
+            {
+                return NotFound();
+            }
+            User user = await _userAppManager.GetUserById(id);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            #endregion
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            string token = await _userAppManager.GeneratePasswordResetToken(user);
+            IdentityResult identityResult = await _userAppManager.ResetPasswordUser(user, token, resetPasswordVM.Password);
+            if (!identityResult.Succeeded)
+            {
+                foreach (IdentityError error in identityResult.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                    return View();
+                }
+            }
             return RedirectToAction("Index");
         }
         #endregion

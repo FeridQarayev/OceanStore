@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using OceanStore.BusinessLayer.Repositorys;
 using OceanStore.DataAccesLayer.DataContext;
 using OceanStore.DataAccesLayer.Models;
@@ -126,6 +127,16 @@ namespace OceanStore.BusinessLayer.Managers
             user.Email = updateVM.Email;
             user.UserName = updateVM.Username;
             await _userManager.UpdateAsync(user);
+        }
+
+        public async Task<string> GeneratePasswordResetToken(User user)
+        {
+            return await _userManager.GeneratePasswordResetTokenAsync(user);
+        }
+
+        public async Task<IdentityResult> ResetPasswordUser(User user,string token, string newPassword)
+        {
+            return await _userManager.ResetPasswordAsync(user, token, newPassword);
         }
     }
 }
