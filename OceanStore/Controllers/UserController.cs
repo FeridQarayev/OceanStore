@@ -111,7 +111,7 @@ namespace OceanStore.Controllers
                     }
                 }
             }
-            await _userAppManager.UpdateUser(user, userUpdateVM);
+            await _userAppManager.ModifiedUser(user, userUpdateVM);
             return RedirectToAction("Index");
         }
         #endregion
@@ -160,6 +160,23 @@ namespace OceanStore.Controllers
                     return View();
                 }
             }
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Activity
+        public async Task<IActionResult> Activity(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            User user = await _userAppManager.GetUserById(id);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            await _userAppManager.Activity(user);
             return RedirectToAction("Index");
         }
         #endregion

@@ -48,10 +48,5 @@ namespace OceanStore.BusinessLayer.Repositorys
             var addedEntity = _db.Entry(entity);
             addedEntity.State = EntityState.Deleted;
         }
-
-        public bool CheckActive(bool active)
-        {
-            return active ? false : true;
-        }
     }
 }

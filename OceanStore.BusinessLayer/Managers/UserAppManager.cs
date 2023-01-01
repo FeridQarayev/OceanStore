@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using OceanStore.BusinessLayer.Helpers;
 using OceanStore.DataAccesLayer.Models;
 using OceanStore.DataAccesLayer.ViewModels;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OceanStore.BusinessLayer.Managers
 {
-    public class UserAppManager 
+    public class UserAppManager
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -110,12 +111,17 @@ namespace OceanStore.BusinessLayer.Managers
             return await _userManager.RemoveFromRoleAsync(user, role);
         }
 
-        public async Task UpdateUser(User user, UserUpdateVM updateVM)
+        public async Task ModifiedUser(User user, UserUpdateVM updateVM)
         {
             user.Name = updateVM.Name;
             user.Surname = updateVM.Surname;
             user.Email = updateVM.Email;
             user.UserName = updateVM.Username;
+            await UpdateUser(user);
+        }
+
+        public async Task UpdateUser(User user)
+        {
             await _userManager.UpdateAsync(user);
         }
 
@@ -127,6 +133,12 @@ namespace OceanStore.BusinessLayer.Managers
         public async Task<IdentityResult> ResetPasswordUser(User user,string token, string newPassword)
         {
             return await _userManager.ResetPasswordAsync(user, token, newPassword);
+        }
+
+        public async Task Activity(User user)
+        {
+            bool active = Helper.CheckActive(user.IsDeactive);
+            await UpdateUser(user);
         }
     }
 }

@@ -14,5 +14,10 @@ namespace OceanStore.BusinessLayer.Helpers
             Admin,
             Member
         }
+
+        public static bool CheckActive(bool active)
+        {
+            return active ? false : true;
+        }
     }
 }
