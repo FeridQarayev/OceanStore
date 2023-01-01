@@ -7,6 +7,7 @@ using OceanStore.DataAccesLayer.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -93,8 +94,38 @@ namespace OceanStore.BusinessLayer.Managers
                 return await _userManager.FindByIdAsync(id);
             }
             catch { return null; }
-            }
+        }
 
-        public async Task<UserUpd>
+        public async Task<UserUpdateVM> GetUserVM(User user)
+        {
+            UserUpdateVM updateVM = new UserUpdateVM()
+            {
+                Name = user.Name,
+                Surname = user.Surname,
+                Email = user.Email,
+                Username = user.UserName,
+                Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault()
+            };
+            return updateVM;
+        }
+
+        public async Task<IdentityResult> AddRoleUser(User user, string newRole)
+        {
+            return await _userManager.AddToRoleAsync(user, newRole);
+        }
+
+        public async Task<IdentityResult> RemoveRoleUser(User user, string role)
+        {
+            return await _userManager.RemoveFromRoleAsync(user, role);
+        }
+
+        public async Task UpdateUser(User user, UserUpdateVM updateVM)
+        {
+            user.Name = updateVM.Name;
+            user.Surname = updateVM.Surname;
+            user.Email = updateVM.Email;
+            user.UserName = updateVM.Username;
+            await _userManager.UpdateAsync(user);
+        }
     }
 }

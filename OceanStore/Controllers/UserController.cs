@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OceanStore.BusinessLayer.Managers;
+using OceanStore.DataAccesLayer.Models;
 using OceanStore.DataAccesLayer.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace OceanStore.Controllers
 {
@@ -60,13 +62,56 @@ namespace OceanStore.Controllers
             {
                 return NotFound();
             }
-            UserUpdateVM userVm = await _userAppManager.GetUserVMById(id);
-            if (userVm == null)
+            User user = await _userAppManager.GetUserById(id);
+            if (user == null)
             {
                 return BadRequest();
             }
+            UserUpdateVM userVM = await _userAppManager.GetUserVM(user);
             ViewBag.Roles = await _userAppManager.GetRoles();
-            return View(userVm);
+            return View(userVM);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(UserUpdateVM userUpdateVM, string newRole,string id)
+        {
+            #region GetCheck
+            if (id == null) { return NotFound(); }
+            User user = await _userAppManager.GetUserById(id);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            UserUpdateVM dbUserVM = await _userAppManager.GetUserVM(user);
+            ViewBag.Roles = await _userAppManager.GetRoles();
+            #endregion
+            if (!ModelState.IsValid)
+            {
+                return View(dbUserVM);
+            }
+            if (newRole!=dbUserVM.Role)
+            {
+                IdentityResult addIdentityResult = await _userAppManager.AddRoleUser(user, newRole);
+                if (!addIdentityResult.Succeeded)
+                {
+                    foreach (IdentityError error in addIdentityResult.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                        return View();
+                    }
+                }
+                IdentityResult removeIdentityResult = await _userAppManager.RemoveRoleUser(user, dbUserVM.Role);
+                if (!removeIdentityResult.Succeeded)
+                {
+                    foreach (IdentityError error in removeIdentityResult.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                        return View();
+                    }
+                }
+            }
+            await _userAppManager.UpdateUser(user, userUpdateVM);
+            return RedirectToAction("Index");
         }
         #endregion
     }
