@@ -29,7 +29,7 @@
                     </div>
                     <div class="form-group">
                         <label>Select Role</label>
-                        <select name="newRole" class="form-control">
+                        <select name="newRole" class="form-control text-white">
                             @foreach (IdentityRole role in ViewBag.Roles)
                             {
                                 if (Model.Role == role.Name)
