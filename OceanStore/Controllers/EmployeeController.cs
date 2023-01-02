@@ -36,7 +36,7 @@ namespace OceanStore.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Employee employee)
+        public async Task<IActionResult> Create(Employee employee,int? positionId)
         {
             ViewBag.Positions = await _positionManager.GetAllPositions();
             if (!ModelState.IsValid)
