@@ -1,19 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using OceanStore.DataAccesLayer.DataContext;
-using OceanStore.BusinessLayer;
-using Microsoft.EntityFrameworkCore;
 using OceanStore.BusinessLayer.Managers;
-using Microsoft.AspNetCore.Identity;
+using OceanStore.DataAccesLayer.DataContext;
 using OceanStore.DataAccesLayer.Models;
+using System;
 
 namespace OceanStore
 {

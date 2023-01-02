@@ -22,9 +22,9 @@ namespace OceanStore.BusinessLayer.Repositorys
         }
         public virtual async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null)
         {
-            return filter == null
-                ? await _db.Set<TEntity>().ToListAsync()
-                : await _db.Set<TEntity>().Where(filter).ToListAsync();
+                return filter == null
+                    ? await _db.Set<TEntity>().ToListAsync()
+                    : await _db.Set<TEntity>().Where(filter).ToListAsync();
         }
         public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter = null)
         {

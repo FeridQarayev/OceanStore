@@ -1,16 +1,23 @@
-﻿using System;
+﻿using OceanStore.BusinessLayer.Repositorys;
+using OceanStore.DataAccesLayer.DataContext;
+using OceanStore.DataAccesLayer.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace OceanStore.BusinessLayer.Managers
 {
-    public class PositionManager
+    public class PositionManager : GenericRepository<Position, AppDbCotext>
     {
-        public PositionManager()
+        public PositionManager(AppDbCotext db) : base(db)
         {
-
+        }
+        public async Task<List<Position>> GetAllPositions()
+        {
+            return await GetAllAsync();
+        }
+        public void CreatePosition(Position position)
+        {
+            AddAsync(position);
         }
     }
 }
