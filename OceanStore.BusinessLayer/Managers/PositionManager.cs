@@ -28,10 +28,7 @@ namespace OceanStore.BusinessLayer.Managers
         {
             return await GetAsync(x=>x.Id==id);
         }
-        public async Task CreatePosition(Position position)
-        {
-            await AddAsync(position);
-        }
+        public async Task CreatePosition(Position position) => await AddAsync(position);
         public async Task UpdatePosition(Position dbPosition,Position position)
         {
             dbPosition.Name = position.Name;

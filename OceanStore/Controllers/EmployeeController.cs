@@ -41,6 +41,11 @@ namespace OceanStore.Controllers
             ViewBag.Positions = await _positionManager.GetAllPositions();
             if (!ModelState.IsValid)
                 return View();
+            if(positionId == null)
+            {
+                ModelState.AddModelError("Position.Id", "Select position");
+                return View();
+            }
             bool IsExistEmail = await _employeeManager.IsExistEmployeeEmail(employee);
             if (IsExistEmail)
             {
@@ -53,7 +58,8 @@ namespace OceanStore.Controllers
                 ModelState.AddModelError("PhoneNumber", "This PhoneNumber is already exist");
                 return View();
             }
-            //await _positionManager.CreatePosition(position);
+            employee.PositionId = (int)positionId;
+            await _employeeManager.CreateEmployee(employee);
             return RedirectToAction("Index");
         }
         #endregion
