@@ -14,8 +14,6 @@ using Microsoft.EntityFrameworkCore;
 using OceanStore.BusinessLayer.Managers;
 using Microsoft.AspNetCore.Identity;
 using OceanStore.DataAccesLayer.Models;
-//using OceanStore.BusinessLayer.Interfaces;
-//using OceanStore.BusinessLayer.Repositorys;
 
 namespace OceanStore
 {
@@ -51,6 +49,7 @@ namespace OceanStore
             services.AddScoped<ProductManager>();
             services.AddScoped<AccountManager>();
             services.AddScoped<UserAppManager>();
+            services.AddScoped<PositionManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

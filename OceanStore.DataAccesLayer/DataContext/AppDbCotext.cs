@@ -20,6 +20,7 @@ namespace OceanStore.DataAccesLayer.DataContext
         //public DbSet<Product> Products { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Position> Positions { get; set; }
+        public DbSet<EmployeeDetail> EmployeeDetails { get; set; }
     }
     //class DataContextFactory : IDesignTimeDbContextFactory<AppDbCotext>
     //{
