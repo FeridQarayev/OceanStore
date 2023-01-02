@@ -34,7 +34,7 @@ namespace OceanStore.Controllers
             {
                 return View();
             }
-            _positionManager.CreatePosition(position);
+            await _positionManager.CreatePosition(position);
             return RedirectToAction("Index");
         }
     }

@@ -22,9 +22,9 @@ namespace OceanStore.BusinessLayer.Repositorys
         }
         public virtual async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null)
         {
-                return filter == null
-                    ? await _db.Set<TEntity>().ToListAsync()
-                    : await _db.Set<TEntity>().Where(filter).ToListAsync();
+            return filter == null
+                ? await _db.Set<TEntity>().ToListAsync()
+                : await _db.Set<TEntity>().Where(filter).ToListAsync();
         }
         public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter = null)
         {
@@ -32,21 +32,24 @@ namespace OceanStore.BusinessLayer.Repositorys
                 ? await _db.Set<TEntity>().FirstOrDefaultAsync()
                 : await _db.Set<TEntity>().Where(filter).FirstOrDefaultAsync();
         }
-        public void AddAsync(TEntity entity)
+        public async Task AddAsync(TEntity entity)
         {
             var addedEntity = _db.Entry(entity);
             addedEntity.State = EntityState.Added;
+            await _db.SaveChangesAsync();
         }
-        public void UpdateAsync(TEntity entity)
+        public async Task UpdateAsync(TEntity entity)
         {
             var addedEntity = _db.Entry(entity);
             addedEntity.State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
 
-        public void DeleteAsync(TEntity entity)
+        public async Task DeleteAsync(TEntity entity)
         {
             var addedEntity = _db.Entry(entity);
             addedEntity.State = EntityState.Deleted;
+            await _db.SaveChangesAsync();
         }
     }
 }

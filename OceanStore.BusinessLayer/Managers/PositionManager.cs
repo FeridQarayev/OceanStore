@@ -15,9 +15,9 @@ namespace OceanStore.BusinessLayer.Managers
         {
             return await GetAllAsync();
         }
-        public void CreatePosition(Position position)
+        public async Task CreatePosition(Position position)
         {
-            AddAsync(position);
+            await AddAsync(position);
         }
     }
 }
