@@ -34,6 +34,12 @@ namespace OceanStore.Controllers
             {
                 return View();
             }
+            bool IsExist = await _positionManager.IsExistPositionName(position);
+            if (IsExist)
+            {
+                ModelState.AddModelError("Name", "This Position is already exist");
+                return View();
+            }
             await _positionManager.CreatePosition(position);
             return RedirectToAction("Index");
         }

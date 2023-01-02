@@ -15,6 +15,10 @@ namespace OceanStore.BusinessLayer.Managers
         {
             return await GetAllAsync();
         }
+        public async Task<bool> IsExistPositionName(Position position)
+        {
+            return await CheckExist(x=>x.Name==position.Name);
+        }
         public async Task CreatePosition(Position position)
         {
             await AddAsync(position);

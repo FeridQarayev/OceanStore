@@ -12,6 +12,7 @@ namespace OceanStore.BusinessLayer.Interfaces
     {
         Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null);
         Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter = null);
+        Task<bool> CheckExist(Expression<Func<TEntity, bool>> filter);
         Task AddAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);
         Task DeleteAsync(TEntity entity);

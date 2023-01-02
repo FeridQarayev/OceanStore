@@ -32,6 +32,10 @@ namespace OceanStore.BusinessLayer.Repositorys
                 ? await _db.Set<TEntity>().FirstOrDefaultAsync()
                 : await _db.Set<TEntity>().Where(filter).FirstOrDefaultAsync();
         }
+        public async Task<bool> CheckExist(Expression<Func<TEntity, bool>> filter)
+        {
+            return await _db.Set<TEntity>().AnyAsync(filter);
+        }
         public async Task AddAsync(TEntity entity)
         {
             var addedEntity = _db.Entry(entity);
