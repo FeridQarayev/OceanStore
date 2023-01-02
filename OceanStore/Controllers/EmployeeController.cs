@@ -12,9 +12,11 @@ namespace OceanStore.Controllers
     {
         #region ctor
         private readonly EmployeeManager _employeeManager;
-        public EmployeeController(EmployeeManager employeeManager)
+        private readonly PositionManager _positionManager;
+        public EmployeeController(EmployeeManager employeeManager, PositionManager positionManager)
         {
             _employeeManager = employeeManager;
+            _positionManager = positionManager;
         }
         #endregion
 
@@ -29,22 +31,28 @@ namespace OceanStore.Controllers
         #region Create
         public async Task<IActionResult> Create()
         {
+            ViewBag.Positions = await _positionManager.GetAllPositions();
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Employee employee)
         {
+            ViewBag.Positions = await _positionManager.GetAllPositions();
             if (!ModelState.IsValid)
+                return View();
+            bool IsExistEmail = await _employeeManager.IsExistEmployeeEmail(employee);
+            if (IsExistEmail)
             {
+                ModelState.AddModelError("Email", "This Email is already exist");
                 return View();
             }
-            //bool IsExist = await _positionManager.IsExistPositionName(position);
-            //if (IsExist)
-            //{
-            //    ModelState.AddModelError("Name", "This Position is already exist");
-            //    return View();
-            //}
+            bool IsExistPhoneNumber = await _employeeManager.IsExistEmployeeEmail(employee);
+            if (IsExistPhoneNumber)
+            {
+                ModelState.AddModelError("PhoneNumber", "This PhoneNumber is already exist");
+                return View();
+            }
             //await _positionManager.CreatePosition(position);
             return RedirectToAction("Index");
         }

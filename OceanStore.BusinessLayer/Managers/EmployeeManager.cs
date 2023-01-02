@@ -18,5 +18,13 @@ namespace OceanStore.BusinessLayer.Managers
         {
             return await GetAllAsync();
         }
+        public async Task<bool> IsExistEmployeeEmail(Employee employee)
+        {
+            return await CheckExist(x => x.Email == employee.Email);
+        }
+        public async Task<bool> IsExistEmployeePhoneNumber(Employee employee)
+        {
+            return await CheckExist(x => x.PhoneNumber == employee.PhoneNumber);
+        }
     }
 }

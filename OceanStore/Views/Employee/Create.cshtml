@@ -1,0 +1,62 @@
+﻿@model Employee
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Vəzifə Yarat</h4>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label asp-for="Name">Ad</label>
+                        <input asp-for="Name" class="form-control">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EmployeeDetail.Surname">Soyad</label>
+                        <input asp-for="EmployeeDetail.Surname" class="form-control">
+                        <span asp-validation-for="EmployeeDetail.Surname" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EmployeeDetail.FatherName">Ata Adı</label>
+                        <input asp-for="EmployeeDetail.FatherName" class="form-control">
+                        <span asp-validation-for="EmployeeDetail.FatherName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EmployeeDetail.DateOfBirth">Doğum Tarixi</label>
+                        <input asp-for="EmployeeDetail.DateOfBirth" class="form-control">
+                        <span asp-validation-for="EmployeeDetail.DateOfBirth" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EmployeeDetail.Gender">Cinsi</label>
+                        <input asp-for="EmployeeDetail.Gender" class="form-control">
+                        <span asp-validation-for="EmployeeDetail.Gender" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Vəzifə Seçin</label>
+                        <select name="role" class="form-control text-white">
+                            @foreach (Position position in ViewBag.Positions)
+                            {
+                                <option value="@position.Id">@position.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email">Email</label>
+                        <input asp-for="Email" class="form-control">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber">Telefon Nömrəsi</label>
+                        <input asp-for="PhoneNumber" class="form-control">
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <a asp-action="Index" class="btn btn-light">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
