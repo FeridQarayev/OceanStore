@@ -26,7 +26,7 @@ namespace OceanStore.BusinessLayer.Repositorys
                 ? await _db.Set<TEntity>().ToListAsync()
                 : await _db.Set<TEntity>().Where(filter).ToListAsync();
         }
-        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter = null)
+        public virtual async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter = null)
         {
             return filter == null
                 ? await _db.Set<TEntity>().FirstOrDefaultAsync()
@@ -38,21 +38,18 @@ namespace OceanStore.BusinessLayer.Repositorys
         }
         public async Task AddAsync(TEntity entity)
         {
-            var addedEntity = _db.Entry(entity);
-            addedEntity.State = EntityState.Added;
+            await _db.Set<TEntity>().AddAsync(entity);
             await _db.SaveChangesAsync();
         }
         public async Task UpdateAsync(TEntity entity)
         {
-            var addedEntity = _db.Entry(entity);
-            addedEntity.State = EntityState.Modified;
+            _db.Set<TEntity>().Update(entity);
             await _db.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(TEntity entity)
         {
-            var addedEntity = _db.Entry(entity);
-            addedEntity.State = EntityState.Deleted;
+            _db.Set<TEntity>().Remove(entity);
             await _db.SaveChangesAsync();
         }
     }

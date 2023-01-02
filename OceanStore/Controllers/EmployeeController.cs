@@ -36,12 +36,12 @@ namespace OceanStore.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Employee employee,int? positionId)
+        public async Task<IActionResult> Create(Employee employee, int? positionId)
         {
             ViewBag.Positions = await _positionManager.GetAllPositions();
             if (!ModelState.IsValid)
                 return View();
-            if(positionId == null)
+            if (positionId == null)
             {
                 ModelState.AddModelError("Position.Id", "Select position");
                 return View();
@@ -60,6 +60,56 @@ namespace OceanStore.Controllers
             }
             employee.PositionId = (int)positionId;
             await _employeeManager.CreateEmployee(employee);
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Update
+        public async Task<IActionResult> Update(int? id)
+        {
+            if (id == null)
+                return NotFound();
+            Employee employee = await _employeeManager.GetEmployeeById((int)id);
+            if (employee == null)
+                return BadRequest();
+            ViewBag.Positions = await _positionManager.GetAllPositions();
+            return View(employee);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(int? id, Employee employee, int? positionId)
+        {
+            if (!ModelState.IsValid)
+                return View(employee);
+            if (id == null)
+                return NotFound();
+            if (positionId == null)
+            {
+                ModelState.AddModelError("Position.Id", "Select position");
+                return View();
+            }
+            Employee dbEmployee = await _employeeManager.GetEmployeeById((int)id);
+            if (dbEmployee == null)
+                return BadRequest();
+            ViewBag.Positions = await _positionManager.GetAllPositions();
+            bool isExistEmployeeEmail = await _employeeManager.IsExistEmployeeEmailVariosId(employee);
+            if (isExistEmployeeEmail)
+            {
+                ModelState.AddModelError("", "This Email is already exist");
+                return View(employee);
+            }
+            bool isExistEmployeePhoneNumber = await _employeeManager.IsExistEmployeePhoneNumberVariosId(employee);
+            if (isExistEmployeePhoneNumber)
+            {
+                ModelState.AddModelError("", "This PhoneNumber is already exist");
+                return View(employee);
+            }
+            dbEmployee.PositionId = (int)positionId;
+            dbEmployee.Name = employee.Name;
+            dbEmployee.Email = employee.Email;
+            dbEmployee.PhoneNumber = employee.PhoneNumber;
+            dbEmployee.EmployeeDetail = employee.EmployeeDetail;
+            await _employeeManager.UpdateEmploye(dbEmployee);
             return RedirectToAction("Index");
         }
         #endregion

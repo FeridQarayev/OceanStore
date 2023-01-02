@@ -1,0 +1,89 @@
+﻿@model Employee
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">İşçi Yarat</h4>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label asp-for="Name">Ad</label>
+                        <input asp-for="Name" class="form-control">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EmployeeDetail.Surname">Soyad</label>
+                        <input asp-for="EmployeeDetail.Surname" class="form-control">
+                        <span asp-validation-for="EmployeeDetail.Surname" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EmployeeDetail.FatherName">Ata Adı</label>
+                        <input asp-for="EmployeeDetail.FatherName" class="form-control">
+                        <span asp-validation-for="EmployeeDetail.FatherName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EmployeeDetail.DateOfBirth">Doğum Tarixi</label>
+                        <input asp-for="EmployeeDetail.DateOfBirth" type="date" class="form-control">
+                        <span asp-validation-for="EmployeeDetail.DateOfBirth" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EmployeeDetail.Gender">Cinsi</label>
+                        <div class="form-check">
+                            <input asp-for="EmployeeDetail.Gender" type="radio" value="Kişi" class="form-check-input">
+                            <label class="form-check-label">Kisi</label>
+                        </div>
+                        <div class="form-check">
+                            <input asp-for="EmployeeDetail.Gender" type="radio" value="Qadın" class="form-check-input">
+                            <label class="form-check-label">Qadin</label>
+                        </div>
+                        <span asp-validation-for="EmployeeDetail.Gender" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Vəzifə Seçin</label>
+                        <select name="positionId" class="form-control text-white">
+                            <option selected disabled hidden></option>
+                            @foreach (Position position in ViewBag.Positions)
+                            {
+                                if (Model.PositionId==position.Id)
+                                {
+                                    <option value="@position.Id" selected>@position.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@position.Id">@position.Name</option>
+                                }
+                            }
+                        </select>
+                        <span asp-validation-for="Position.Id" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email">Email</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@("@")</span>
+                            </div>
+                            <input asp-for="Email" placeholder="email" class="form-control">
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber">Telefon Nömrəsi</label>
+                        <span class="text-danger">* 055-444-2332 və ya 55-444-2332</span>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">+944</span>
+                            </div>
+                            <input asp-for="PhoneNumber" class="form-control">
+                        </div>
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <a asp-action="Index" class="btn btn-light">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
