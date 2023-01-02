@@ -113,5 +113,31 @@ namespace OceanStore.Controllers
             return RedirectToAction("Index");
         }
         #endregion
+
+        #region Activity
+        public async Task<IActionResult> Activity(int? id)
+        {
+            if (id == null)
+                return NotFound();
+            Employee employee = await _employeeManager.GetEmployeeById((int)id);
+            if (employee == null)
+                return BadRequest();
+            await _employeeManager.ActivityEmployee(employee);
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Detail
+        public async Task<IActionResult> Detail(int? id)
+        {
+            if (id == null)
+                return NotFound();
+            Employee employee = await _employeeManager.GetEmployeeById((int)id);
+            if (employee == null)
+                return BadRequest();
+            ViewBag.Positions = await _positionManager.GetAllPositions();
+            return View(employee);
+        }
+        #endregion
     }
 }

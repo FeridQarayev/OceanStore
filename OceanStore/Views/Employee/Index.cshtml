@@ -34,6 +34,7 @@
                                         <span class="@(employee.IsDeactive? "text-danger" : "text-success")">@(employee.IsDeactive ? "Deactive" : "Active")</span>
                                     </td>
                                     <td>
+                                        <a asp-action="Detail" asp-route-id="@employee.Id" class="btn btn-info btn-fw">Detail</a>
                                         <a asp-action="Update" asp-route-id="@employee.Id" class="badge badge-warning">Update</a>
                                         <a asp-action="Activity" asp-route-id="@employee.Id" class="badge @(employee.IsDeactive ? "badge-success" : "badge-danger")">@(employee.IsDeactive ? "Activade" : "Deactivade")</a>
                                     </td>
