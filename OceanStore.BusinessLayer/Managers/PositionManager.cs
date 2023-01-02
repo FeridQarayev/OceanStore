@@ -19,9 +19,24 @@ namespace OceanStore.BusinessLayer.Managers
         {
             return await CheckExist(x=>x.Name==position.Name);
         }
+        public async Task<bool> IsExistPositionNameVariousId(Position position)
+        {
+            return await CheckExist(x => x.Name == position.Name && x.Id != position.Id);
+        }
+        public async Task<Position> GetPositionById(int id)
+        {
+            return await GetAsync(x=>x.Id==id);
+        }
         public async Task CreatePosition(Position position)
         {
             await AddAsync(position);
+        }
+        public async Task UpdatePosition(Position dbPosition,Position position)
+        {
+            dbPosition.Name = position.Name;
+            dbPosition.Salary = position.Salary;
+            dbPosition.IsDeactive = position.IsDeactive;
+            await UpdateAsync(dbPosition);
         }
     }
 }

@@ -17,11 +17,15 @@ namespace OceanStore.Controllers
             _positionManager = positionManager;
         }
         #endregion
+
+        #region Index
         public async Task<IActionResult> Index()
         {
             List<Position> positions = await _positionManager.GetAllPositions();
             return View(positions);
         }
+        #endregion
+        #region Create
         public async Task<IActionResult> Create()
         {
             return View();
@@ -43,5 +47,40 @@ namespace OceanStore.Controllers
             await _positionManager.CreatePosition(position);
             return RedirectToAction("Index");
         }
+        #endregion
+
+        #region Update
+        public async Task<IActionResult> Update(int id)
+        {
+            if (id == null)
+                return NotFound();
+            Position position = await _positionManager.GetPositionById(id);
+            if (position == null)
+                return BadRequest();
+            return View(position);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(Position position,int id)
+        {
+            #region FromGet
+            if (id == null)
+                return NotFound();
+            Position dbPosition = await _positionManager.GetPositionById(id);
+            if (dbPosition == null)
+                return BadRequest();
+            #endregion
+            if (!ModelState.IsValid)
+                return View(position);
+            bool isExist = await _positionManager.IsExistPositionNameVariousId(position);
+            if (isExist)
+            {
+                ModelState.AddModelError("Name", "This Position is already exist");
+                return View(position);
+            }
+            await _positionManager.UpdatePosition(dbPosition,position);
+            return RedirectToAction("Index");
+        }
+        #endregion
     }
 }
