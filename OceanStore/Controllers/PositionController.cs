@@ -82,5 +82,18 @@ namespace OceanStore.Controllers
             return RedirectToAction("Index");
         }
         #endregion
+
+        #region Activity
+        public async Task<IActionResult> Activity(int? id)
+        {
+            if (id == null)
+                return NotFound();
+            Position position = await _positionManager.GetPositionById((int)id);
+            if (position == null)
+                return BadRequest();
+            await _positionManager.ActivityPosition(position);
+            return RedirectToAction("Index");
+        }
+        #endregion
     }
 }

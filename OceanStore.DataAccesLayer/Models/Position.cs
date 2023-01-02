@@ -10,6 +10,7 @@ namespace OceanStore.DataAccesLayer.Models
         [Required]
         public string Name { get; set; }
         [Required]
+        [Range(0, double.MaxValue)]
         public double Salary { get; set; }
         public bool IsDeactive { get; set; }
         public List<Employee> Employees { get; set; }

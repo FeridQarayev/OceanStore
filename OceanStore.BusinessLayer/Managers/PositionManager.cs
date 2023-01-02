@@ -1,4 +1,5 @@
-﻿using OceanStore.BusinessLayer.Repositorys;
+﻿using OceanStore.BusinessLayer.Helpers;
+using OceanStore.BusinessLayer.Repositorys;
 using OceanStore.DataAccesLayer.DataContext;
 using OceanStore.DataAccesLayer.Models;
 using System.Collections.Generic;
@@ -37,6 +38,11 @@ namespace OceanStore.BusinessLayer.Managers
             dbPosition.Salary = position.Salary;
             dbPosition.IsDeactive = position.IsDeactive;
             await UpdateAsync(dbPosition);
+        }
+        public async Task ActivityPosition(Position position)
+        {
+            position.IsDeactive = Helper.CheckActive(position.IsDeactive);
+            await UpdateAsync(position);
         }
     }
 }
