@@ -1,0 +1,73 @@
+﻿@model List<Category>
+
+<!-- partial -->
+@*<div class="main-panel">*@
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">İşçilər</h4>
+                <div style="text-align:end">
+                    <a asp-action="Create" class="btn btn-primary text-white btn-rounded" style="width:80px;height:30px;display:inline-flex;justify-content:center;align-items:center;margin-right:100px">+Create</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Şəkil</th>
+                                <th>Ad</th>
+                                <th>Əsasdı</th>
+                                <th>Alt Kateqoriyalar</th>
+                                <th>Status</th>
+                                <th>Əməliyyatlar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Category category in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @if (category.Image?.Length > 1)
+                                        {
+                                            <img style="width:100px;height:100px;object-fit:cover" src="~/assets/images/@category.Image" />
+                                        }
+                                        else
+                                        {
+                                            <span>Not have Image</span>
+                                        }
+                                    </td>
+                                    <td>@category.Name</td>
+                                    <td>
+                                        @if (category.IsMain)
+                                        {
+                                            <span>Main</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Child</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @foreach (Category child in category.Children)
+                                        {
+                                            <div>@child.Name</div>
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="@(category.IsDeactive? "text-danger" : "text-success")">@(category.IsDeactive ? "Deactive" : "Active")</span>
+                                    </td>
+                                    <td>
+                                        <a asp-action="Update" asp-route-id="@category.Id" class="badge badge-warning">Update</a>
+                                        <a asp-action="Activity" asp-route-id="@category.Id" class="badge @(category.IsDeactive ? "badge-success" : "badge-danger")">@(category.IsDeactive ? "Activade" : "Deactivade")</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*</div>*@
+<!-- content-wrapper ends -->

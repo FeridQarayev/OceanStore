@@ -47,6 +47,7 @@ namespace OceanStore
             services.AddScoped<PositionManager>();
             services.AddScoped<EmployeeManager>();
             services.AddScoped<MailManager>();
+            services.AddScoped<CategoryManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
