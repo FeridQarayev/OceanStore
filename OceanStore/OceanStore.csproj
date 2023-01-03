@@ -17,4 +17,8 @@
     <ProjectReference Include="..\OceanStore.BusinessLayer\OceanStore.BusinessLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\assets\images\category\" />
+  </ItemGroup>
+
 </Project>

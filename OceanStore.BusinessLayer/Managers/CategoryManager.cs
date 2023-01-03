@@ -1,18 +1,26 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using OceanStore.BusinessLayer.Helpers;
 using OceanStore.BusinessLayer.Repositorys;
 using OceanStore.DataAccesLayer.DataContext;
 using OceanStore.DataAccesLayer.Models;
+using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace OceanStore.BusinessLayer.Managers
 {
     public class CategoryManager : GenericRepository<Category, AppDbCotext>
     {
+        private readonly AppDbCotext _db;
         public CategoryManager(AppDbCotext db) : base(db)
         {
+            _db = db;
+        }
+        public override async Task<List<Category>> GetAllAsync(Expression<Func<Category, bool>> filter = null)
+        {
+            return await _db.Set<Category>().Include(x=>x.Children).ToListAsync();
         }
         public async Task<List<Category>> GetAllCategories()
         {
@@ -34,6 +42,11 @@ namespace OceanStore.BusinessLayer.Managers
         public async Task<string> SavePhotoProject(IFormFile photo, string folder)
         {
             return await photo.SaveFileAsync(folder);
+        }
+        public async Task ActivityCategory(Category category)
+        {
+            category.IsDeactive = Helper.CheckActive(category.IsDeactive);
+            await UpdateAsync(category);
         }
     }
 }

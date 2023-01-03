@@ -57,7 +57,7 @@ namespace OceanStore.Controllers
                     ModelState.AddModelError("Photo", checkImage);
                     return View();
                 }
-                string folder = Path.Combine(_env.WebRootPath, "assets", "images");
+                string folder = Path.Combine(_env.WebRootPath, "assets", "images","category");
                 category.Image = await _categoryManager.SavePhotoProject(category.Photo, folder);
             }
             else
@@ -65,6 +65,41 @@ namespace OceanStore.Controllers
                 category.ParentId = mainCatId;
             }
             await _categoryManager.AddAsync(category);
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Activity
+        public async Task<IActionResult> Activity(int? id)
+        {
+            if (id == null)
+                return NotFound();
+            Category category = await _categoryManager.GetAsync(x => x.Id == id);
+            if (category == null)
+                return BadRequest();
+            await _categoryManager.ActivityCategory(category);
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Delete
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+                return NotFound();
+            Category category = await _categoryManager.GetAsync(x => x.Id == id);
+            if (category == null)
+                return BadRequest();
+            await _categoryManager.DeleteAsync(category);
+            if (category.Image!=null)
+            {
+                string folder = Path.Combine(_env.WebRootPath, "assets", "images","category");
+                string path = Path.Combine(folder, category.Image);
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+            }
             return RedirectToAction("Index");
         }
         #endregion

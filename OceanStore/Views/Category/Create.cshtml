@@ -1,0 +1,81 @@
+﻿@model Category
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Kateqoriya Yarat</h4>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label asp-for="Name">Ad</label>
+                        <input asp-for="Name" class="form-control">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    @if (ViewBag.MainCategories.Count == 0)
+                    {
+                        <div class="form-group" hidden>
+                            <label asp-for="IsMain">Əsasdı</label>
+                            <input asp-for="IsMain" class="form-control" checked>
+                            <span asp-validation-for="IsMain" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" id="PhotoBox">
+                            <label asp-for="Photo">Şəkil</label>
+                            <input asp-for="Photo" class="form-control">
+                            <span asp-validation-for="Photo" class="text-danger"></span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            <label asp-for="IsMain">Əsasdı</label>
+                            <input asp-for="IsMain" class="form-control">
+                            <span asp-validation-for="IsMain" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" id="PhotoBox">
+                            <label asp-for="Photo">Şəkil</label>
+                            <input asp-for="Photo" class="form-control">
+                            <span asp-validation-for="Photo" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" id="CatBox">
+                            <label>Əsas kateqoriya seçin</label>
+                            <select name="mainCatId" class="form-control text-white">
+                                <option selected disabled hidden></option>
+                                @foreach (Category category in ViewBag.MainCategories)
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <a asp-action="Index" class="btn btn-light">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        if ($('#IsMain').prop('checked')) {
+            $('#PhotoBox').css('display', 'block')
+            $('#CatBox').css('display', 'none')
+        }
+        else {
+            $('#PhotoBox').css('display', 'none')
+            $('#CatBox').css('display', 'block')
+        }
+        $(document).on("change", "#IsMain", function () {
+            if ($('#IsMain').prop('checked')) {
+                $('#PhotoBox').css('display', 'block')
+                $('#CatBox').css('display', 'none')
+            }
+            else {
+                $('#PhotoBox').css('display', 'none')
+                $('#CatBox').css('display', 'block')
+            }
+        })
+        $("#IsMain").css("height", "20px")
+        $("#IsMain").css("width", "50px")
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}

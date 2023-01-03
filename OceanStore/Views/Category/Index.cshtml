@@ -16,7 +16,7 @@
                             <tr>
                                 <th>Şəkil</th>
                                 <th>Ad</th>
-                                <th>Əsasdı</th>
+                                <th class="text-center">Əsasdı</th>
                                 <th>Alt Kateqoriyalar</th>
                                 <th>Status</th>
                                 <th>Əməliyyatlar</th>
@@ -40,15 +40,15 @@
                                     <td>
                                         @if (category.IsMain)
                                         {
-                                            <span>Main</span>
+                                            <input type="checkbox" class="form-control" checked disabled />
                                         }
                                         else
                                         {
-                                            <span>Child</span>
+                                            <input type="checkbox" class="form-control" disabled />
                                         }
                                     </td>
                                     <td>
-                                        @foreach (Category child in category.Children)
+                                        @foreach (Category child in category?.Children)
                                         {
                                             <div>@child.Name</div>
                                         }
@@ -57,8 +57,9 @@
                                         <span class="@(category.IsDeactive? "text-danger" : "text-success")">@(category.IsDeactive ? "Deactive" : "Active")</span>
                                     </td>
                                     <td>
-                                        <a asp-action="Update" asp-route-id="@category.Id" class="badge badge-warning">Update</a>
+                                        @*<a asp-action="Update" asp-route-id="@category.Id" class="badge badge-warning">Update</a>*@
                                         <a asp-action="Activity" asp-route-id="@category.Id" class="badge @(category.IsDeactive ? "badge-success" : "badge-danger")">@(category.IsDeactive ? "Activade" : "Deactivade")</a>
+                                        <a asp-action="Delete" asp-route-id="@category.Id" class="badge badge-warning">Delete</a>
                                     </td>
                                 </tr>
                             }
