@@ -1,0 +1,33 @@
+﻿@model Mail
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Mail Göndər</h4>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label asp-for="MessageSubject">Başlıq</label>
+                        <input asp-for="MessageSubject" placeholder="Başlıq" class="form-control">
+                        <span asp-validation-for="MessageSubject" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MessageBody">Mövzu</label>
+                        <input asp-for="MessageBody" placeholder="Mövzu" class="form-control">
+                        <span asp-validation-for="MessageBody" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" hidden>
+                        <label asp-for="MailTo">Kime</label>
+                        <input asp-for="MailTo" placeholder="Mövzu" class="form-control">
+                        <span asp-validation-for="MailTo" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Send</button>
+                    <a asp-controller="Employee" asp-action="Index" class="btn btn-light">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

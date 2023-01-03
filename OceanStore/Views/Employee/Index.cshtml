@@ -8,6 +8,17 @@
             <div class="card-body">
                 <h4 class="card-title">İşçilər</h4>
                 <div style="text-align:end">
+                    @if (Model.Count > 1)
+                    {
+                        <a asp-controller="Mail" asp-action="SendAll" title="Butun işçilərə mail göndər" class="btn badge-success text-white btn-rounded" style="width:80px;height:30px;display:inline-flex;justify-content:center;align-items:center;margin-right:5px">
+                            <div class="preview-thumbnail">
+                                <div class="preview-icon badge-success">
+                                    <i class="mdi mdi-plus"></i>
+                                    <i class="mdi mdi-email"></i>
+                                </div>
+                            </div>
+                        </a>
+                    }
                     <a asp-action="Create" class="btn btn-primary text-white btn-rounded" style="width:80px;height:30px;display:inline-flex;justify-content:center;align-items:center;margin-right:100px">+Create</a>
                 </div>
                 <div class="table-responsive">
@@ -34,6 +45,13 @@
                                         <span class="@(employee.IsDeactive? "text-danger" : "text-success")">@(employee.IsDeactive ? "Deactive" : "Active")</span>
                                     </td>
                                     <td>
+                                        <a asp-controller="Mail" asp-action="Index" asp-route-id="@employee.Id" title="Email Gonder" class="badge badge-danger">
+                                            <div class="preview-thumbnail">
+                                                <div class="preview-icon bg-danger">
+                                                    <i class="mdi mdi-email-open"></i>
+                                                </div>
+                                            </div>
+                                        </a>
                                         <a asp-action="Detail" asp-route-id="@employee.Id" class="btn btn-info btn-fw">Detail</a>
                                         <a asp-action="Update" asp-route-id="@employee.Id" class="badge badge-warning">Update</a>
                                         <a asp-action="Activity" asp-route-id="@employee.Id" class="badge @(employee.IsDeactive ? "badge-success" : "badge-danger")">@(employee.IsDeactive ? "Activade" : "Deactivade")</a>

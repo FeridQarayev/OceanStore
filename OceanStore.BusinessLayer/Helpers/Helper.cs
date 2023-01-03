@@ -23,7 +23,7 @@ namespace OceanStore.BusinessLayer.Helpers
             SmtpClient client = new SmtpClient("smtp.yandex.com", 587);
             client.UseDefaultCredentials = false;
             client.EnableSsl = true;
-            client.Credentials = new NetworkCredential("Farid.g@itbrains.edu.az", "kgzkbjlmhizqlgtp");
+            client.Credentials = new NetworkCredential("Farid.g@itbrains.edu.az", "icjdfiehjeibwwpp");
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             MailMessage message = new MailMessage("Farid.g@itbrains.edu.az", mailTo);
             message.Subject = messageSubject;

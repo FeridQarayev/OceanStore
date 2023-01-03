@@ -17,8 +17,4 @@
     <ProjectReference Include="..\OceanStore.BusinessLayer\OceanStore.BusinessLayer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Mail\" />
-  </ItemGroup>
-
 </Project>
