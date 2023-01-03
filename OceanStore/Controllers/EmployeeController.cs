@@ -24,6 +24,7 @@ namespace OceanStore.Controllers
         public async Task<IActionResult> Index()
         {
             List<Employee> employees = await _employeeManager.GetAllEmployee();
+            ViewBag.PositionsCount = (await _positionManager.GetAllActivePositions()).Count;
             return View(employees);
         }
         #endregion
@@ -31,7 +32,10 @@ namespace OceanStore.Controllers
         #region Create
         public async Task<IActionResult> Create()
         {
-            ViewBag.Positions = await _positionManager.GetAllPositions();
+            List<Position> positions = await _positionManager.GetAllActivePositions();
+            if (positions.Count == 0)
+                return BadRequest();
+            ViewBag.Positions = positions;
             return View();
         }
         [HttpPost]
@@ -72,7 +76,10 @@ namespace OceanStore.Controllers
             Employee employee = await _employeeManager.GetEmployeeById((int)id);
             if (employee == null)
                 return BadRequest();
-            ViewBag.Positions = await _positionManager.GetAllPositions();
+            List<Position> positions = await _positionManager.GetAllActivePositions();
+            if (positions.Count == 0)
+                return BadRequest();
+            ViewBag.Positions = positions;
             return View(employee);
         }
         [HttpPost]

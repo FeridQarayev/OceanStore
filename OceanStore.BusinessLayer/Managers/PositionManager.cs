@@ -16,9 +16,13 @@ namespace OceanStore.BusinessLayer.Managers
         {
             return await GetAllAsync();
         }
+        public async Task<List<Position>> GetAllActivePositions()
+        {
+            return await GetAllAsync(x=>!x.IsDeactive);
+        }
         public async Task<bool> IsExistPositionName(Position position)
         {
-            return await CheckExist(x=>x.Name==position.Name);
+            return await CheckExist(x => x.Name == position.Name);
         }
         public async Task<bool> IsExistPositionNameVariousId(Position position)
         {
@@ -26,10 +30,10 @@ namespace OceanStore.BusinessLayer.Managers
         }
         public async Task<Position> GetPositionById(int id)
         {
-            return await GetAsync(x=>x.Id==id);
+            return await GetAsync(x => x.Id == id);
         }
         public async Task CreatePosition(Position position) => await AddAsync(position);
-        public async Task UpdatePosition(Position dbPosition,Position position)
+        public async Task UpdatePosition(Position dbPosition, Position position)
         {
             dbPosition.Name = position.Name;
             dbPosition.Salary = position.Salary;

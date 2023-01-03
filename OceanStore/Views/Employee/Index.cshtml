@@ -6,61 +6,71 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">İşçilər</h4>
-                <div style="text-align:end">
-                    @if (Model.Count > 1)
-                    {
-                        <a asp-controller="Mail" asp-action="SendAll" title="Butun işçilərə mail göndər" class="btn badge-success text-white btn-rounded" style="width:80px;height:30px;display:inline-flex;justify-content:center;align-items:center;margin-right:5px">
-                            <div class="preview-thumbnail">
-                                <div class="preview-icon badge-success">
-                                    <i class="mdi mdi-plus"></i>
-                                    <i class="mdi mdi-email"></i>
+                @if (ViewBag.PositionsCount != 0)
+                {
+                    <h4 class="card-title">İşçilər</h4>
+                    <div style="text-align:end">
+                        @if (Model.Count > 1)
+                        {
+                            <a asp-controller="Mail" asp-action="SendAll" title="Butun işçilərə mail göndər" class="btn badge-success text-white btn-rounded" style="width:80px;height:30px;display:inline-flex;justify-content:center;align-items:center;margin-right:5px">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon badge-success">
+                                        <i class="mdi mdi-plus"></i>
+                                        <i class="mdi mdi-email"></i>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    }
-                    <a asp-action="Create" class="btn btn-primary text-white btn-rounded" style="width:80px;height:30px;display:inline-flex;justify-content:center;align-items:center;margin-right:100px">+Create</a>
-                </div>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Ad</th>
-                                <th>Vəzifə</th>
-                                <th>Email</th>
-                                <th>Status</th>
-                                <th>Əməliyyatlar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (Employee employee in Model)
-                            {
+                            </a>
+                        }
+                        <a asp-action="Create" class="btn btn-primary text-white btn-rounded" style="width:80px;height:30px;display:inline-flex;justify-content:center;align-items:center;margin-right:100px">+Create</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td>@employee.Id</td>
-                                    <td>@employee.Name</td>
-                                    <td>@employee.Position.Name</td>
-                                    <td>@employee.Email</td>
-                                    <td>
-                                        <span class="@(employee.IsDeactive? "text-danger" : "text-success")">@(employee.IsDeactive ? "Deactive" : "Active")</span>
-                                    </td>
-                                    <td>
-                                        <a asp-controller="Mail" asp-action="Index" asp-route-id="@employee.Id" title="Email Gonder" class="badge badge-danger">
-                                            <div class="preview-thumbnail">
-                                                <div class="preview-icon bg-danger">
-                                                    <i class="mdi mdi-email-open"></i>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a asp-action="Detail" asp-route-id="@employee.Id" class="btn btn-info btn-fw">Detail</a>
-                                        <a asp-action="Update" asp-route-id="@employee.Id" class="badge badge-warning">Update</a>
-                                        <a asp-action="Activity" asp-route-id="@employee.Id" class="badge @(employee.IsDeactive ? "badge-success" : "badge-danger")">@(employee.IsDeactive ? "Activade" : "Deactivade")</a>
-                                    </td>
+                                    <th>Id</th>
+                                    <th>Ad</th>
+                                    <th>Vəzifə</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Əməliyyatlar</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                @foreach (Employee employee in Model)
+                                {
+                                    <tr>
+                                        <td>@employee.Id</td>
+                                        <td>@employee.Name</td>
+                                        <td>@employee.Position.Name</td>
+                                        <td>@employee.Email</td>
+                                        <td>
+                                            <span class="@(employee.IsDeactive? "text-danger" : "text-success")">@(employee.IsDeactive ? "Deactive" : "Active")</span>
+                                        </td>
+                                        <td>
+                                            <a asp-controller="Mail" asp-action="Index" asp-route-id="@employee.Id" title="Email Gonder" class="badge badge-danger">
+                                                <div class="preview-thumbnail">
+                                                    <div class="preview-icon bg-danger">
+                                                        <i class="mdi mdi-email-open"></i>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a asp-action="Detail" asp-route-id="@employee.Id" class="btn btn-info btn-fw">Detail</a>
+                                            <a asp-action="Update" asp-route-id="@employee.Id" class="badge badge-warning">Update</a>
+                                            <a asp-action="Activity" asp-route-id="@employee.Id" class="badge @(employee.IsDeactive ? "badge-success" : "badge-danger")">@(employee.IsDeactive ? "Activade" : "Deactivade")</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <h4 class="card-title text-danger">Vəzifə Yarat!</h4>
+                    <div class="card">
+                        <a asp-controller="Position" asp-action="Create" class="btn btn-primary btn-fw">Vəzifə Yarat</a>
+                    </div>
+                }
             </div>
         </div>
     </div>
