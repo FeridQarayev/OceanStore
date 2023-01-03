@@ -42,7 +42,10 @@ namespace OceanStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Employee employee, int? positionId)
         {
-            ViewBag.Positions = await _positionManager.GetAllPositions();
+            List<Position> positions = await _positionManager.GetAllActivePositions();
+            if (positions.Count == 0)
+                return BadRequest();
+            ViewBag.Positions = positions;
             if (!ModelState.IsValid)
                 return View();
             if (positionId == null)
@@ -98,7 +101,10 @@ namespace OceanStore.Controllers
             Employee dbEmployee = await _employeeManager.GetEmployeeById((int)id);
             if (dbEmployee == null)
                 return BadRequest();
-            ViewBag.Positions = await _positionManager.GetAllPositions();
+            List<Position> positions = await _positionManager.GetAllActivePositions();
+            if (positions.Count == 0)
+                return BadRequest();
+            ViewBag.Positions = positions;
             bool isExistEmployeeEmail = await _employeeManager.IsExistEmployeeEmailVariosId(employee);
             if (isExistEmployeeEmail)
             {
