@@ -18,6 +18,8 @@ namespace OceanStore.Controllers
             _employeeManager = employeeManager;
         }
         #endregion
+
+        #region Index
         public async Task<IActionResult> Index(int? id)
         {
             if (id == null)
@@ -43,6 +45,9 @@ namespace OceanStore.Controllers
             await _mailManager.SendMail(mail.MessageSubject,mail.MessageBody,mail.MailTo);
             return RedirectToAction("Index", "Employee");
         }
+        #endregion
+
+        #region SendAll
         public async Task<IActionResult> SendAll()
         {
             return View();
@@ -56,5 +61,6 @@ namespace OceanStore.Controllers
             await _mailManager.SendAllMail(mail);
             return RedirectToAction("Index", "Employee");
         }
+        #endregion
     }
 }
