@@ -13,22 +13,20 @@ using System.Threading.Tasks;
 
 namespace OceanStore.BusinessLayer.Managers
 {
-    public class ProductManager : GenericRepository<Product,AppDbCotext>
+    public class ProductManager : GenericRepository<Product, AppDbCotext>
     {
         private readonly AppDbCotext _db;
         public ProductManager(AppDbCotext db) : base(db)
         {
             _db = db;
         }
+        public override async Task<List<Product>> GetAllAsync(Expression<Func<Product, bool>> filter = null)
+        {
+            return await _db.Products.Include(x => x.ProductDetails).Include(x => x.ProductImages).Include(x => x.ProductCategories).ThenInclude(x => x.Category).ToListAsync();
+        }
         public async Task<List<Product>> GettAllProduct()
         {
-            var data = await GetAllAsync(x => x.Id == 1);
-            return data;
+            return await GetAllAsync();
         }
-        //public override Task<List<Product>> GetAllAsync(Expression<Func<Product, bool>> filter = null)
-        //{
-        //    //return base.GetAllAsync(filter);
-        //    return _db.Products.Where(x => x.Price == 12).ToListAsync();
-        //}
     }
 }
