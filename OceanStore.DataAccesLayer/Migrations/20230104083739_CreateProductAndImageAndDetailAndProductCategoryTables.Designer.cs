@@ -10,7 +10,7 @@ using OceanStore.DataAccesLayer.DataContext;
 namespace OceanStore.DataAccesLayer.Migrations
 {
     [DbContext(typeof(AppDbCotext))]
-    [Migration("20230104083128_CreateProductAndImageAndDetailAndProductCategoryTables")]
+    [Migration("20230104083739_CreateProductAndImageAndDetailAndProductCategoryTables")]
     partial class CreateProductAndImageAndDetailAndProductCategoryTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -290,7 +290,7 @@ namespace OceanStore.DataAccesLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Product");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("OceanStore.DataAccesLayer.Models.ProductCategory", b =>
@@ -312,7 +312,7 @@ namespace OceanStore.DataAccesLayer.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductCategory");
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("OceanStore.DataAccesLayer.Models.ProductDetail", b =>
@@ -345,7 +345,7 @@ namespace OceanStore.DataAccesLayer.Migrations
                     b.HasIndex("ProductId")
                         .IsUnique();
 
-                    b.ToTable("ProductDetail");
+                    b.ToTable("ProductDetails");
                 });
 
             modelBuilder.Entity("OceanStore.DataAccesLayer.Models.ProductImage", b =>
@@ -365,7 +365,7 @@ namespace OceanStore.DataAccesLayer.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImage");
+                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("OceanStore.DataAccesLayer.Models.User", b =>
