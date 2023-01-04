@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OceanStore.BusinessLayer.Helpers;
 using OceanStore.BusinessLayer.Repositorys;
 using OceanStore.DataAccesLayer.DataContext;
 using OceanStore.DataAccesLayer.Models;
@@ -43,6 +44,11 @@ namespace OceanStore.BusinessLayer.Managers
         {
             _db.ProductImages.Remove(productImage);
             await _db.SaveChangesAsync();
+        }
+        public async Task ActivityCategory(Product product)
+        {
+            product.IsDeactive = Helper.CheckActive(product.IsDeactive);
+            await UpdateAsync(product);
         }
     }
 }

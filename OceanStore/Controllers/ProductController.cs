@@ -57,6 +57,11 @@ namespace OceanStore.Controllers
             }
             #region SaveImage
             List<ProductImage> images = new();
+            if (product.Photos == null)
+            {
+                ModelState.AddModelError("Photos", "Please choose photo");
+                return View();
+            }
             foreach (IFormFile Photo in product.Photos)
             {
                 string checkImage = Photo != null ? await _productManager.CheckImage(Photo) : "Please choose photo";
@@ -112,8 +117,7 @@ namespace OceanStore.Controllers
             if (product == null)
                 return BadRequest();
             ViewBag.MainCategories = await _categoryManager.GetMainCategories();
-            Category childCat = await _categoryManager.GetChildCategory();
-            ViewBag.ChildCategory = childCat != null ? childCat.Children : null;
+            ViewBag.ChildCategory = product.ProductCategories.FirstOrDefault().Category.Children;
             return View(product);
         }
         [HttpPost]
@@ -126,8 +130,7 @@ namespace OceanStore.Controllers
             if (dbProduct == null)
                 return BadRequest();
             ViewBag.MainCategories = await _categoryManager.GetMainCategories();
-            Category childCat = await _categoryManager.GetChildCategory();
-            ViewBag.ChildCategory = childCat != null ? childCat.Children : null;
+            ViewBag.ChildCategory = dbProduct.ProductCategories.FirstOrDefault().Category.Children;
             if (mainId == null)
             {
                 ModelState.AddModelError("", "Select Main Category!");
@@ -196,6 +199,19 @@ namespace OceanStore.Controllers
                 return true;
             }
             return false;
+        }
+        #endregion
+
+        #region Activity
+        public async Task<IActionResult> Activity(int? id)
+        {
+            if (id == null)
+                return NotFound();
+            Product product = await _productManager.GetAsync(x => x.Id == id);
+            if (product == null)
+                return BadRequest();
+            await _productManager.ActivityCategory(product);
+            return RedirectToAction("Index");
         }
         #endregion
     }
