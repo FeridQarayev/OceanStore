@@ -19,5 +19,6 @@ namespace OceanStore.DataAccesLayer.Models
         public bool IsDeactive { get; set; }
         [NotMapped]
         public IFormFile Photo { get; set; }
+        public List<ProductCategory> ProductCategories { get; set; }
     }
 }
