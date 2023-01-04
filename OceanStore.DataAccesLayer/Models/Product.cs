@@ -19,6 +19,7 @@ namespace OceanStore.DataAccesLayer.Models
         public List<ProductCategory> ProductCategories { get; set; }
         public List<ProductImage> ProductImages { get; set; }
         [NotMapped]
+        [Required]
         public IFormFile[] Photos { get; set; }
     }
 }

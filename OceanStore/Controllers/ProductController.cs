@@ -61,7 +61,7 @@ namespace OceanStore.Controllers
                 string checkImage = Photo != null ? await _productManager.CheckImage(Photo) : "Please choose photo";
                 if (checkImage != null)
                 {
-                    ModelState.AddModelError("Photo", checkImage);
+                    ModelState.AddModelError("Photos", checkImage);
                     return View();
                 }
                 string folder = Path.Combine(_env.WebRootPath, "assets", "images", "product");
@@ -93,5 +93,15 @@ namespace OceanStore.Controllers
             return RedirectToAction("Index");
         }
         #endregion
+
+        #region LoadChild
+        public async Task<IActionResult> LoadChild(int mainId)
+        {
+            List<Category> childcategories = await _categoryManager.GetAllAsync(x => x.ParentId == mainId);
+            return PartialView("_ChildCategories", childcategories);
+        }
+        #endregion
+
+
     }
 }

@@ -20,7 +20,10 @@ namespace OceanStore.BusinessLayer.Managers
         }
         public override async Task<List<Category>> GetAllAsync(Expression<Func<Category, bool>> filter = null)
         {
-            return await _db.Set<Category>().Include(x=>x.Children).ToListAsync();
+            return
+                filter == null ?
+                await _db.Set<Category>().Include(x => x.Children).ToListAsync() :
+            await _db.Set<Category>().Include(x => x.Children).Where(filter).ToListAsync();
         }
         public async Task<List<Category>> GetAllCategories()
         {
