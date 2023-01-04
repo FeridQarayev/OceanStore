@@ -6,7 +6,7 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">İşçilər</h4>
+                <h4 class="card-title">Kateqoriyalar</h4>
                 <div style="text-align:end">
                     <a asp-action="Create" class="btn btn-primary text-white btn-rounded" style="width:80px;height:30px;display:inline-flex;justify-content:center;align-items:center;margin-right:100px">+Create</a>
                 </div>
@@ -29,7 +29,7 @@
                                     <td>
                                         @if (category.Image?.Length > 1)
                                         {
-                                            <img style="width:100px;height:100px;object-fit:cover" src="~/assets/images/@category.Image" />
+                                            <img style="width:100px;height:100px;object-fit:cover" src="~/assets/images/category/@category.Image" />
                                         }
                                         else
                                         {

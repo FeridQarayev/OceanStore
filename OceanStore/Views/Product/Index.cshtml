@@ -1,8 +1,67 @@
 ﻿@model List<Product>
-@{
-    ViewData["Title"] = "Index";
-}
 
-<h1>@Model[0].Id</h1>
-<h1>@Model[0].Name</h1>
-
+<!-- partial -->
+@*<div class="main-panel">*@
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Məhsullar</h4>
+                <div style="text-align:end">
+                    <a asp-action="Create" class="btn btn-primary text-white btn-rounded" style="width:80px;height:30px;display:inline-flex;justify-content:center;align-items:center;margin-right:100px">+Create</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Şəkil</th>
+                                <th>Ad</th>
+                                <th class="text-center">Stokda Mövcuddur</th>
+                                <th>Kateqoriyalar</th>
+                                <th>Status</th>
+                                <th>Əməliyyatlar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Product product in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <img style="width:100px;height:100px;object-fit:cover" src="~/assets/images/product/@product.Image" />
+                                    </td>
+                                    <td>@product.Name</td>
+                                    <td>
+                                        @if (product.ProductDetails.HasStock)
+                                        {
+                                            <input type="checkbox" class="form-control" checked disabled />
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" class="form-control" disabled />
+                                        }
+                                    </td>
+                                    <td>@product.Price</td>
+                                    <td>
+                                        @foreach (ProductCategory productCategory in product.ProductCategories)
+                                        {
+                                            <div>@productCategory.Category.Name</div>
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="@(product.IsDeactive? "text-danger" : "text-success")">@(product.IsDeactive ? "Deactive" : "Active")</span>
+                                    </td>
+                                    <td>
+                                        <a asp-action="Update" asp-route-id="@product.Id" class="badge badge-warning">Update</a>
+                                        <a asp-action="Activity" asp-route-id="@product.Id" class="badge @(product.IsDeactive ? "badge-success" : "badge-danger")">@(product.IsDeactive ? "Activade" : "Deactivade")</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*</div>*@
+<!-- content-wrapper ends -->
