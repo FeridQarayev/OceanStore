@@ -3,8 +3,35 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Yeni məhsul yarat</h4>
+                <h4 class="card-title">Məhsula düzəliş et</h4>
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="d-flex flex-wrap">
+                    @if (Model.ProductImages.Count!>1)
+                    {
+                        @foreach (ProductImage productImage in Model.ProductImages)
+                        {
+                            <div class="d-flex flex-column" style="margin:5px" id="image_@productImage.Id">
+                                <img style="width:100px;height:100px;object-fit:cover;margin-bottom:5px;" src="~/assets/images/product/@productImage.Image" />
+                                <a title="Mehsulu sil" class="badge badge-danger myBtn" id="myButton_@productImage.Id" onclick="myFunction(@productImage.Id)">
+                                    <div class="preview-thumbnail">
+                                        <div class="preview-icon bg-danger">
+                                            <i class="mdi mdi-delete"></i>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        @foreach (ProductImage productImage in Model.ProductImages)
+                        {
+                            <div class="d-flex flex-column" style="margin:5px" id="image_@productImage.Id">
+                                <img style="width:100px;height:100px;object-fit:cover;margin-bottom:5px;" src="~/assets/images/product/@productImage.Image" />
+                            </div>
+                        }
+                    }
+                </div>
                 <form class="forms-sample" method="post" enctype="multipart/form-data">
                     <div class="form-group" id="PhotoBox">
                         <label asp-for="Photos">Şəkilləri</label>
@@ -98,6 +125,29 @@
                 }
             })
         });
+        function myFunction(id) {
+            var image = document.getElementById("image_" + id);
+            var button = document.getElementById("myButton_" + id);
+            $.ajax({
+                url: "@Url.Action("DeleteImage", "Product")",
+                type: "get",
+                data: {
+                    "id": id
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res) {
+                        image.remove();
+                        if ($(".myBtn").length == 1) {
+                            $(".myBtn").remove();
+                        }
+                    }
+                    else {
+                        button.remove();
+                    }
+                }
+            });
+        }
     </script>
     <partial name="_ValidationScriptsPartial" />
 }
