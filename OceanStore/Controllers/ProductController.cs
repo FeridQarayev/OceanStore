@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OceanStore.BusinessLayer.Managers;
 using OceanStore.DataAccesLayer.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -37,7 +38,8 @@ namespace OceanStore.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.MainCategories = await _categoryManager.GetMainCategories();
-            ViewBag.ChildCategory = (await _categoryManager.GetChildCategory()).Children;
+            Category childCat = await _categoryManager.GetChildCategory();
+            ViewBag.ChildCategory = childCat != null ? childCat.Children : null;
             return View();
         }
         [HttpPost]
@@ -45,7 +47,8 @@ namespace OceanStore.Controllers
         public async Task<IActionResult> Create(Product product, int? mainId, int? childCatId)
         {
             ViewBag.MainCategories = await _categoryManager.GetMainCategories();
-            ViewBag.ChildCategory = (await _categoryManager.GetChildCategory()).Children;
+            Category childCat = await _categoryManager.GetChildCategory();
+            ViewBag.ChildCategory = childCat != null ? childCat.Children : null;
             if (mainId == null)
             {
                 ModelState.AddModelError("", "Select Main Category!");
@@ -64,7 +67,7 @@ namespace OceanStore.Controllers
                 string folder = Path.Combine(_env.WebRootPath, "assets", "images", "product");
                 ProductImage productImage = new();
 
-                productImage.Image = await _productManager.SavePhotoProject(Photo,folder);
+                productImage.Image = await _productManager.SavePhotoProject(Photo, folder);
                 images.Add(productImage);
             }
             #endregion
@@ -84,6 +87,7 @@ namespace OceanStore.Controllers
 
             product.ProductCategories = productCategories;
             product.ProductImages = images;
+            product.ProductDetails.CreateTime = DateTime.UtcNow;
 
             await _productManager.AddAsync(product);
             return RedirectToAction("Index");

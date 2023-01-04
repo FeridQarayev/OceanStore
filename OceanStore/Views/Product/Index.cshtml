@@ -17,6 +17,7 @@
                                 <th>Şəkil</th>
                                 <th>Ad</th>
                                 <th class="text-center">Stokda Mövcuddur</th>
+                                <th>Qiyməti</th>
                                 <th>Kateqoriyalar</th>
                                 <th>Status</th>
                                 <th>Əməliyyatlar</th>
@@ -27,7 +28,7 @@
                             {
                                 <tr>
                                     <td>
-                                        <img style="width:100px;height:100px;object-fit:cover" src="~/assets/images/product/@product.ProductImages" />
+                                        <img style="width:100px;height:100px;object-fit:cover" src="~/assets/images/product/@product.ProductImages.FirstOrDefault().Image" />
                                     </td>
                                     <td>@product.Name</td>
                                     <td>

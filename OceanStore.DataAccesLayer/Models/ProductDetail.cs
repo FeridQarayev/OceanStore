@@ -1,5 +1,6 @@
 ﻿using OceanStore.DataAccesLayer.Interface;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OceanStore.DataAccesLayer.Models
@@ -7,7 +8,8 @@ namespace OceanStore.DataAccesLayer.Models
     public class ProductDetail :IEntity
     {
         public int Id { get; set; }
-        public int Tax { get; set; }
+        public double Tax { get; set; }
+        [Required]
         public string Brand { get; set; }
         public string Description { get; set; }
         public bool HasStock { get; set; }

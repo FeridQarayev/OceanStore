@@ -1,0 +1,103 @@
+﻿@model Product
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Yeni məhsul yarat</h4>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    <div class="form-group" id="PhotoBox">
+                        <label asp-for="Photos">Şəkilləri</label>
+                        <input accept="image/*" asp-for="Photos" class="form-control" placeholder="Image">
+                        <span asp-validation-for="Photos" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Name">Adı</label>
+                        <input asp-for="Name" class="form-control">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price">Qiyməti</label>
+                        <input asp-for="Price" type="text" value="3.5" class="form-control">
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Rate">5 üzərindən yaxşılıq dərəcəsi</label>
+                        <input asp-for="Rate" type="text" class="form-control">
+                        <span asp-validation-for="Rate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ProductDetails.HasStock" id="hasstockLabel">Stokda Mövcuddur</label>
+                        <input asp-for="ProductDetails.HasStock" class="form-check-input">
+                        <span asp-validation-for="ProductDetails.HasStock" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ProductDetails.Brand"></label>
+                        <input asp-for="ProductDetails.Brand" class="form-control">
+                        <span asp-validation-for="ProductDetails.Brand" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ProductDetails.Tax">Vergi</label>
+                        <input asp-for="ProductDetails.Tax" type="number" class="form-control">
+                        <span asp-validation-for="ProductDetails.Tax" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" hidden>
+                        <label asp-for="ProductDetails.CreateTime"></label>
+                        <input asp-for="ProductDetails.CreateTime" class="form-control">
+                        <span asp-validation-for="ProductDetails.CreateTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ProductDetails.Description">Təsviri</label>
+                        <input asp-for="ProductDetails.Description" class="form-control">
+                        <span asp-validation-for="ProductDetails.Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" id="CatBox">
+                        <label>Əsas kateqoriya seçin</label>
+                        <select name="mainId" id="mainCat" class="form-control">
+                            @foreach (Category category in ViewBag.MainCategories)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        </select>
+                    </div>
+                    @if (ViewBag.ChildCategory != null)
+                    {
+                        <div class="form-group" id="CatBox">
+                            <label>Alt kateqoriya seçin</label>
+                            <select name="childCatId" id="childCat" class="form-control">
+                                @foreach (Category category in ViewBag.ChildCategory)
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <a asp-action="Index" class="btn btn-light">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $("#ProductDetails_HasStock").css("height", "20px")
+        $("#ProductDetails_HasStock").css("width", "50px")
+        $("#ProductDetails_HasStock").css("position", "relative")
+        $("#hasstockLabel").css("display", "block")
+        $(document).on("change", "#mainCat", function () {
+            $.ajax({
+                url: "/Product/LoadChild/",
+                type: "get",
+                data: {
+                    "mainId": $("#mainCat").val()
+                },
+                success: function (response) {
+                    $("#childCat").empty()
+                    $("#childCat").append(response)
+                }
+            })
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}
