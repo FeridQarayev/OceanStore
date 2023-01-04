@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using OceanStore.BusinessLayer.Helpers;
 using OceanStore.BusinessLayer.Interfaces;
 using OceanStore.DataAccesLayer.DataContext;
 using OceanStore.DataAccesLayer.Interface;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace OceanStore.BusinessLayer.Repositorys
 {
-    public class GenericRepository<TEntity, TContext> : IGenericRepository<TEntity>
+    public class GenericRepository<TEntity, TContext> : IGenericRepository<TEntity> ,IHelpRepository
         where TEntity : class, IEntity
         where TContext : DbContext
     {
@@ -52,5 +54,15 @@ namespace OceanStore.BusinessLayer.Repositorys
             _db.Set<TEntity>().Remove(entity);
             await _db.SaveChangesAsync();
         }
+        //----------------------------------Image-------------------------------
+        public async Task<string> CheckImage(IFormFile photo)
+        {
+            if (!photo.IsImage())
+                return "Please choose Image file";
+            if (photo.IsOlderTwoMB())
+                return "Image max 2MB";
+            return null;
+        }
+        public async Task<string> SavePhotoProject(IFormFile photo, string folder) => await photo.SaveFileAsync(folder);
     }
 }
