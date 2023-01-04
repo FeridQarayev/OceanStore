@@ -31,6 +31,7 @@ namespace OceanStore.Controllers
         public async Task<IActionResult> Index()
         {
             List<Product> products = await _productManager.GettAllProduct();
+            ViewBag.CategoriesCount = (await _categoryManager.GetAllCategories()).Count;
             return View(products);
         }
         #endregion
@@ -38,6 +39,8 @@ namespace OceanStore.Controllers
         #region Create
         public async Task<IActionResult> Create()
         {
+            if ((await _categoryManager.GetAllCategories()).Count == 0)
+                return BadRequest();
             ViewBag.MainCategories = await _categoryManager.GetMainCategories();
             Category childCat = await _categoryManager.GetChildCategory();
             ViewBag.ChildCategory = childCat != null ? childCat.Children : null;
@@ -47,6 +50,8 @@ namespace OceanStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product, int? mainId, int? childCatId)
         {
+            if ((await _categoryManager.GetAllCategories()).Count == 0)
+                return BadRequest();
             ViewBag.MainCategories = await _categoryManager.GetMainCategories();
             Category childCat = await _categoryManager.GetChildCategory();
             ViewBag.ChildCategory = childCat != null ? childCat.Children : null;
@@ -111,6 +116,8 @@ namespace OceanStore.Controllers
         #region Update
         public async Task<IActionResult> Update(int? id)
         {
+            if ((await _categoryManager.GetAllCategories()).Count == 0)
+                return BadRequest();
             if (id == null)
                 return NotFound();
             Product product = await _productManager.GetAsync(x => x.Id == id);
@@ -124,6 +131,8 @@ namespace OceanStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(int? id, Product product, int? mainId, int? childCatId)
         {
+            if ((await _categoryManager.GetAllCategories()).Count == 0)
+                return BadRequest();
             if (id == null)
                 return NotFound();
             Product dbProduct = await _productManager.GetAsync(x => x.Id == id);
