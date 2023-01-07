@@ -69,5 +69,18 @@ namespace OceanStore.BusinessLayer.Managers
                 (await GetAllAsync()).Sum(x => !x.RecorderKind ? x.Price : 0) :
                 (await GetAllAsync(x => x.CreateTime >= DateTime.UtcNow.AddMonths(-month))).Sum(x => !x.RecorderKind ? x.Price : 0);
         }
+        public async Task<double> GetTotalAmmountAsDay(int day)
+        {
+            return (await GetAllAsync(x => x.CreateTime >= DateTime.UtcNow.AddDays(-day))).Sum(x => x.RecorderKind ? -x.Price : x.Price);
+        }
+        public async Task<double> GetTotalExpensessAmmountAsDay(int day)
+        {
+            return (await GetAllAsync(x => x.CreateTime >= DateTime.UtcNow.AddDays(-day))).Sum(x => x.RecorderKind ? x.Price : 0);
+        }
+        public async Task<double> GetTotalIncomesAmmountAsDay(int day)
+        {
+            return (await GetAllAsync(x => x.CreateTime >= DateTime.UtcNow.AddDays(-day))).Sum(x => !x.RecorderKind ? x.Price : 0);
+        }
+        
     }
 }
