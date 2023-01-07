@@ -21,9 +21,9 @@ namespace OceanStore.BusinessLayer.Managers
         }
         public async override Task<List<Ammount>> GetAllAsync(Expression<Func<Ammount, bool>> filter = null)
         {
-            return filter==null?
-                await _db.Ammounts.OrderByDescending(x=>x.CreateTime).ToListAsync():
-                await _db.Ammounts.Where(filter).OrderByDescending(x=>x.CreateTime).ToListAsync();
+            return filter == null ?
+                await _db.Ammounts.OrderByDescending(x => x.CreateTime).ToListAsync() :
+                await _db.Ammounts.Where(filter).OrderByDescending(x => x.CreateTime).ToListAsync();
         }
         public async Task<List<Ammount>> GetIncomes() => await GetAllAsync(x => !x.RecorderKind);
         public async Task<List<Ammount>> GetExpenses() => await GetAllAsync(x => x.RecorderKind);
@@ -51,17 +51,23 @@ namespace OceanStore.BusinessLayer.Managers
             ammount.CreatedBy = (await _userAppManager.GetUserByName(name)).Id;
             await AddAsync(ammount);
         }
-        public async Task<double> GetTotalAmmount()
+        public async Task<double> GetTotalAmmount(int month = 0)
         {
-            return (await GetAllAsync()).Sum(x => x.RecorderKind ? -x.Price : x.Price);
+            return month == 0 ?
+                (await GetAllAsync()).Sum(x => x.RecorderKind ? -x.Price : x.Price) :
+                (await GetAllAsync(x => x.CreateTime >= DateTime.UtcNow.AddMonths(-month))).Sum(x => x.RecorderKind ? -x.Price : x.Price);
         }
-        public async Task<double> GetTotalExpensesAmmount()
+        public async Task<double> GetTotalExpensesAmmount(int month = 0)
         {
-            return (await GetAllAsync()).Sum(x => x.RecorderKind ? x.Price : 0);
+            return month == 0 ?
+                (await GetAllAsync()).Sum(x => x.RecorderKind ? x.Price : 0) :
+                (await GetAllAsync(x => x.CreateTime >= DateTime.UtcNow.AddMonths(-month))).Sum(x => x.RecorderKind ? x.Price : 0);
         }
-        public async Task<double> GetTotalIncomesAmmount()
+        public async Task<double> GetTotalIncomesAmmount(int month = 0)
         {
-            return (await GetAllAsync()).Sum(x => !x.RecorderKind ? x.Price : 0);
+            return month == 0 ?
+                (await GetAllAsync()).Sum(x => !x.RecorderKind ? x.Price : 0) :
+                (await GetAllAsync(x => x.CreateTime >= DateTime.UtcNow.AddMonths(-month))).Sum(x => !x.RecorderKind ? x.Price : 0);
         }
     }
 }

@@ -98,7 +98,7 @@ namespace OceanStore.Controllers
 
             product.ProductCategories = productCategories;
             product.ProductImages = images;
-            product.ProductDetails.CreateTime = DateTime.UtcNow;
+            product.ProductDetails.CreateTime = DateTime.UtcNow.AddHours(4);
 
             await _productManager.AddAsync(product);
             return RedirectToAction("Index");
