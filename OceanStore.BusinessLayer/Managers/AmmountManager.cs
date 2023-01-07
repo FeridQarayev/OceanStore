@@ -27,7 +27,7 @@ namespace OceanStore.BusinessLayer.Managers
         }
         public async Task CreateAmmount(Ammount ammount, string name)
         {
-            ammount.CreateTime = DateTime.UtcNow;
+            ammount.CreateTime = DateTime.UtcNow.AddHours(4);
             ammount.CreatedBy = (await _userAppManager.GetUserByName(name)).Id;
             await AddAsync(ammount);
         }
