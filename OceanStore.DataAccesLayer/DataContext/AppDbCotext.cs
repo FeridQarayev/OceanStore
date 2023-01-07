@@ -14,10 +14,13 @@ namespace OceanStore.DataAccesLayer.DataContext
         public DbSet<Position> Positions { get; set; }
         public DbSet<EmployeeDetail> EmployeeDetails { get; set; }
         public DbSet<Category> Categories { get; set; }
+        #region Products
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductDetail> ProductDetails { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
+        #endregion
+        public DbSet<Ammount> Ammounts { get; set; }
     }
     //class DataContextFactory : IDesignTimeDbContextFactory<AppDbCotext>
     //{
