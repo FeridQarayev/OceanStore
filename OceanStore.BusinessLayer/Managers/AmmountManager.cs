@@ -1,6 +1,7 @@
 ﻿using OceanStore.BusinessLayer.Repositorys;
 using OceanStore.DataAccesLayer.DataContext;
 using OceanStore.DataAccesLayer.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -23,6 +24,12 @@ namespace OceanStore.BusinessLayer.Managers
                 ammount.CreatedBy = (await _userAppManager.GetUserById(ammount.CreatedBy)).Name;
             }
             return ammounts;
+        }
+        public async Task CreateAmmount(Ammount ammount, string name)
+        {
+            ammount.CreateTime = DateTime.UtcNow;
+            ammount.CreatedBy = (await _userAppManager.GetUserByName(name)).Id;
+            await AddAsync(ammount);
         }
     }
 }

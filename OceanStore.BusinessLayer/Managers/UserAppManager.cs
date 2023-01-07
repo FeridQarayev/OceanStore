@@ -87,6 +87,14 @@ namespace OceanStore.BusinessLayer.Managers
             }
             catch { return null; }
         }
+        public async Task<User> GetUserByName(string name)
+        {
+            try
+            {
+                return await _userManager.FindByNameAsync(name);
+            }
+            catch { return null; }
+        }
 
         public async Task<UserUpdateVM> GetUserVM(User user)
         {
