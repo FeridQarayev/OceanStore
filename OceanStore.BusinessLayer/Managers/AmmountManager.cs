@@ -25,6 +25,15 @@ namespace OceanStore.BusinessLayer.Managers
             }
             return ammounts;
         }
+        public async Task<List<Ammount>> ListAllExpenses()
+        {
+            List<Ammount> ammounts = await GetExpenses();
+            foreach (Ammount ammount in ammounts)
+            {
+                ammount.CreatedBy = (await _userAppManager.GetUserById(ammount.CreatedBy)).Name;
+            }
+            return ammounts;
+        }
         public async Task CreateAmmount(Ammount ammount, string name)
         {
             ammount.CreateTime = DateTime.UtcNow.AddHours(4);
