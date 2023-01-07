@@ -1,0 +1,52 @@
+﻿@model List<Ammount>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!-- partial -->
+@*<div class="main-panel">*@
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Gəlirlər</h4>
+                <div style="text-align:end">
+                    <a asp-action="Create" class="btn btn-primary text-white btn-rounded" style="width:80px;height:30px;display:inline-flex;justify-content:center;align-items:center;margin-right:100px">+Create</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Gəlirin Dəyəri</th>
+                                <th>Gəlir Haqqında</th>
+                                <th>Gəlirin yaranma vaxtı</th>
+                                <th>Qeyd edən şəxs</th>
+                                <th>Status</th>
+                                <th>Əməliyyatlar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Ammount ammount in Model)
+                            {
+                                <tr>
+                                    <td>@ammount.Price</td>
+                                    <td>@ammount.Description</td>
+                                    <td>@ammount.CreateTime.ToString("dd-MM-yyyy ss:mm:hh")</td>
+                                    <td>@ammount.CreatedBy</td>
+                                    @*<td>
+                                        <span class="@(ammount.IsDeactive? "text-danger" : "text-success")">@(position.IsDeactive ? "Deactive" : "Active")</span>
+                                    </td>
+                                    <td>
+                                        <a asp-action="Activity" asp-route-id="@position.Id" class="badge @(position.IsDeactive ? "badge-success" : "badge-danger")">@(position.IsDeactive ? "Activade" : "Deactivade")</a>
+                                    </td>*@
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*</div>*@
+<!-- content-wrapper ends -->
