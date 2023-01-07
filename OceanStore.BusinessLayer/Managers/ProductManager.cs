@@ -20,11 +20,9 @@ namespace OceanStore.BusinessLayer.Managers
         }
         public override async Task<List<Product>> GetAllAsync(Expression<Func<Product, bool>> filter = null)
         {
-            return await _db.Products.Include(x => x.ProductDetails).Include(x => x.ProductImages).Include(x => x.ProductCategories).ThenInclude(x => x.Category).ToListAsync();
-        }
-        public async Task<List<Product>> GettAllProduct()
-        {
-            return await GetAllAsync();
+            return filter==null?
+                await _db.Products.Include(x => x.ProductDetails).Include(x => x.ProductImages).Include(x => x.ProductCategories).ThenInclude(x => x.Category).ToListAsync():
+                await _db.Products.Include(x => x.ProductDetails).Include(x => x.ProductImages).Include(x => x.ProductCategories).ThenInclude(x => x.Category).Where(filter).ToListAsync();
         }
         public async override Task<Product> GetAsync(Expression<Func<Product, bool>> filter = null)
         {

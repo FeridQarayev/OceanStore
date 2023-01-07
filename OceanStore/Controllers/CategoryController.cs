@@ -5,6 +5,7 @@ using OceanStore.BusinessLayer.Managers;
 using OceanStore.DataAccesLayer.Models;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OceanStore.Controllers
@@ -15,10 +16,12 @@ namespace OceanStore.Controllers
         #region ctor
         private readonly IWebHostEnvironment _env;
         private readonly CategoryManager _categoryManager;
-        public CategoryController(IWebHostEnvironment env, CategoryManager categoryManager)
+        private readonly ProductManager _productManager;
+        public CategoryController(IWebHostEnvironment env, CategoryManager categoryManager, ProductManager productManager)
         {
             _env = env;
             _categoryManager = categoryManager;
+            _productManager = productManager;
         }
         #endregion
 
@@ -57,7 +60,7 @@ namespace OceanStore.Controllers
                     ModelState.AddModelError("Photo", checkImage);
                     return View();
                 }
-                string folder = Path.Combine(_env.WebRootPath, "assets", "images","category");
+                string folder = Path.Combine(_env.WebRootPath, "assets", "images", "category");
                 category.Image = await _categoryManager.SavePhotoProject(category.Photo, folder);
             }
             else
@@ -90,10 +93,34 @@ namespace OceanStore.Controllers
             Category category = await _categoryManager.GetAsync(x => x.Id == id);
             if (category == null)
                 return BadRequest();
-            await _categoryManager.DeleteAsync(category);
-            if (category.Image!=null)
+
+            #region DeleteProduct
+            if (category.IsMain)
             {
-                string folder = Path.Combine(_env.WebRootPath, "assets", "images","category");
+                List<Product> products = await _productManager.GetAllAsync(x => x.ProductCategories.Any(x => x.CategoryId == category.Id && x.Category.IsMain));
+                if (products != null)
+                {
+                    foreach (Product product in products)
+                    {
+                        foreach (ProductImage productImage in product.ProductImages)
+                        {
+                            string folder = Path.Combine(_env.WebRootPath, "assets", "images", "product");
+                            string path = Path.Combine(folder, productImage.Image);
+                            if (System.IO.File.Exists(path))
+                            {
+                                System.IO.File.Delete(path);
+                            }
+                        }
+                        await _productManager.DeleteAsync(product);
+                    }
+                }
+            }
+            #endregion
+
+            await _categoryManager.DeleteAsync(category);
+            if (category.Image != null)
+            {
+                string folder = Path.Combine(_env.WebRootPath, "assets", "images", "category");
                 string path = Path.Combine(folder, category.Image);
                 if (System.IO.File.Exists(path))
                 {

@@ -30,7 +30,7 @@ namespace OceanStore.Controllers
         #region Index
         public async Task<IActionResult> Index()
         {
-            List<Product> products = await _productManager.GettAllProduct();
+            List<Product> products = await _productManager.GetAllAsync();
             ViewBag.CategoriesCount = (await _categoryManager.GetAllCategories()).Count;
             return View(products);
         }
