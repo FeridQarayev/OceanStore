@@ -1,9 +1,11 @@
-﻿using OceanStore.BusinessLayer.Repositorys;
+﻿using Microsoft.EntityFrameworkCore;
+using OceanStore.BusinessLayer.Repositorys;
 using OceanStore.DataAccesLayer.DataContext;
 using OceanStore.DataAccesLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace OceanStore.BusinessLayer.Managers
@@ -11,12 +13,20 @@ namespace OceanStore.BusinessLayer.Managers
     public class AmmountManager : GenericRepository<Ammount, AppDbCotext>
     {
         private readonly UserAppManager _userAppManager;
+        private readonly AppDbCotext _db;
         public AmmountManager(AppDbCotext db, UserAppManager userAppManager) : base(db)
         {
+            _db = db;
             _userAppManager = userAppManager;
         }
-        public async Task<List<Ammount>> GetIncomes()=> await GetAllAsync(x=>!x.RecorderKind);
-        public async Task<List<Ammount>> GetExpenses()=> await GetAllAsync(x=>x.RecorderKind);
+        public async override Task<List<Ammount>> GetAllAsync(Expression<Func<Ammount, bool>> filter = null)
+        {
+            return filter==null?
+                await _db.Ammounts.OrderByDescending(x=>x.CreateTime).ToListAsync():
+                await _db.Ammounts.Where(filter).OrderByDescending(x=>x.CreateTime).ToListAsync();
+        }
+        public async Task<List<Ammount>> GetIncomes() => await GetAllAsync(x => !x.RecorderKind);
+        public async Task<List<Ammount>> GetExpenses() => await GetAllAsync(x => x.RecorderKind);
         public async Task<List<Ammount>> ListAllIncomes()
         {
             List<Ammount> ammounts = await GetIncomes();
@@ -43,15 +53,15 @@ namespace OceanStore.BusinessLayer.Managers
         }
         public async Task<double> GetTotalAmmount()
         {
-            return (await GetAllAsync()).Sum(x=>x.RecorderKind? -x.Price:x.Price);
+            return (await GetAllAsync()).Sum(x => x.RecorderKind ? -x.Price : x.Price);
         }
         public async Task<double> GetTotalExpensesAmmount()
         {
-            return (await GetAllAsync()).Sum(x=>x.RecorderKind? x.Price: 0);
+            return (await GetAllAsync()).Sum(x => x.RecorderKind ? x.Price : 0);
         }
         public async Task<double> GetTotalIncomesAmmount()
         {
-            return (await GetAllAsync()).Sum(x=>!x.RecorderKind? x.Price: 0);
+            return (await GetAllAsync()).Sum(x => !x.RecorderKind ? x.Price : 0);
         }
     }
 }
