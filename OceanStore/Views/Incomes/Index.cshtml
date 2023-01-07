@@ -21,7 +21,6 @@
                                 <th>Gəlir Haqqında</th>
                                 <th>Gəlirin yaranma vaxtı</th>
                                 <th>Qeyd edən şəxs</th>
-                                <th>Status</th>
                                 <th>Əməliyyatlar</th>
                             </tr>
                         </thead>
@@ -33,12 +32,9 @@
                                     <td>@ammount.Description</td>
                                     <td>@ammount.CreateTime.ToString("dd-MM-yyyy HH:mm:ss")</td>
                                     <td>@ammount.CreatedBy</td>
-                                    @*<td>
-                                        <span class="@(ammount.IsDeactive? "text-danger" : "text-success")">@(position.IsDeactive ? "Deactive" : "Active")</span>
-                                    </td>
                                     <td>
-                                        <a asp-action="Activity" asp-route-id="@position.Id" class="badge @(position.IsDeactive ? "badge-success" : "badge-danger")">@(position.IsDeactive ? "Activade" : "Deactivade")</a>
-                                    </td>*@
+                                        <a asp-action="Delete" asp-route-id="@ammount.Id" class="badge badge-danger">Delete</a>
+                                    </td>
                                 </tr>
                             }
                         </tbody>

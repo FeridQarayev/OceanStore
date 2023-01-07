@@ -9,12 +9,15 @@ namespace OceanStore.Controllers
     [Authorize(Roles = "Admin,SuperAdmin")]
     public class HomeController : Controller
     {
+        #region ctor
         private readonly AmmountManager _ammountManager;
         public HomeController(AmmountManager ammountManager)
         {
             _ammountManager = ammountManager;
         }
+        #endregion
 
+        #region Index
         public async Task<IActionResult> Index()
         {
             ViewBag.Ammount = await _ammountManager.GetTotalAmmount();
@@ -45,5 +48,6 @@ namespace OceanStore.Controllers
             #endregion
             return View();
         }
+        #endregion
     }
 }

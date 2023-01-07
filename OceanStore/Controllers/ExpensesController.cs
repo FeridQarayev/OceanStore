@@ -42,5 +42,18 @@ namespace OceanStore.Controllers
             return RedirectToAction("Index");
         }
         #endregion
+
+        #region Delete
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+                return NotFound();
+            Ammount ammount = await _ammountManager.GetAsync(x => x.Id == id);
+            if (ammount == null)
+                return BadRequest();
+            await _ammountManager.DeleteAsync(ammount);
+            return RedirectToAction("Index");
+        }
+        #endregion
     }
 }
