@@ -25,5 +25,22 @@ namespace OceanStore.Controllers
             return View(ammounts);
         }
         #endregion
+
+        #region Create
+        public async Task<IActionResult> Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Ammount ammount)
+        {
+            if (!ModelState.IsValid)
+                return View();
+            ammount.RecorderKind = true;
+            await _ammountManager.CreateAmmount(ammount, User.Identity.Name);
+            return RedirectToAction("Index");
+        }
+        #endregion
     }
 }

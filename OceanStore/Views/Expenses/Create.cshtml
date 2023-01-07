@@ -1,0 +1,28 @@
+﻿@model Ammount
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Xərc əlavə et</h4>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label asp-for="Price">Xərcin Dəyəri</label>
+                        <input asp-for="Price" class="form-control">
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description">Xərc Haqqında</label>
+                        <input asp-for="Description" class="form-control">
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <a asp-action="Index" class="btn btn-light">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
