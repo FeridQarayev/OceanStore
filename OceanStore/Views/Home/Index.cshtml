@@ -1,11 +1,112 @@
-﻿@model List<User>
+﻿
 
-@{
-    ViewData["Title"] = "Home Page";
-}
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="col-md-4 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Ümumi Məbləğimiz</h4>
+            <canvas id="total-ammount" class="transaction-chart"></canvas>
+            <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                <div class="text-md-center text-xl-left">
+                    <h6 class="mb-1">Transfer to Paypal</h6>
+                    <p class="text-muted mb-0">07 Jan 2019, 09:12AM</p>
+                </div>
+                <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                    <h6 class="font-weight-bold mb-0">$236</h6>
+                </div>
+            </div>
+            <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                <div class="text-md-center text-xl-left">
+                    <h6 class="mb-1">Tranfer to Stripe</h6>
+                    <p class="text-muted mb-0">07 Jan 2019, 09:12AM</p>
+                </div>
+                <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                    <h6 class="font-weight-bold mb-0">$593</h6>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-@*<h1>@Model[0].Name</h1>*@
+
+@section Scripts{
+    <script>
+        let totalAmmount = @ViewBag.Ammount;
+        let totalExpensesAmmount = @ViewBag.ExpensesAmmount;
+        let totalIncomesAmmount = @ViewBag.IncomesAmmount;
+
+        let commonPercentageExpenses = Math.round((totalExpensesAmmount * 100) / (totalExpensesAmmount + totalIncomesAmmount))
+        let commonPercentageIncomes = Math.round((totalIncomesAmmount * 100) / (totalExpensesAmmount + totalIncomesAmmount));
+        console.log(commonPercentageExpenses)
+        console.log(commonPercentageIncomes)
+
+        if ($("#total-ammount").length) {
+            var areaData = {
+                labels: ["Xərc", "Gəlir"],
+                datasets: [{
+                    data: [commonPercentageExpenses, commonPercentageIncomes],
+                    backgroundColor: [
+                        "#fc424a", "#00d25b"
+                    ]
+                }
+                ]
+            };
+            var areaOptions = {
+                responsive: true,
+                maintainAspectRatio: true,
+                segmentShowStroke: false,
+                cutoutPercentage: 70,
+                elements: {
+                    arc: {
+                        borderWidth: 0
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    enabled: true
+                }
+            }
+            var transactionhistoryChartPlugins = {
+                beforeDraw: function (chart) {
+                    var width = chart.chart.width,
+                        height = chart.chart.height,
+                        ctx = chart.chart.ctx;
+
+                    ctx.restore();
+                    var fontSize = 1;
+                    ctx.font = fontSize + "rem sans-serif";
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = "middle";
+                    ctx.fillStyle = "#ffffff";
+
+                    var text = totalAmmount != 0 ? `$${totalAmmount}` : `$0`,
+                        textX = Math.round((width - ctx.measureText(text).width) / 2),
+                        textY = height / 2.4;
+
+                    ctx.fillText(text, textX, textY);
+
+                    ctx.restore();
+                    var fontSize = 0.75;
+                    ctx.font = fontSize + "rem sans-serif";
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = "middle";
+                    ctx.fillStyle = "#6c7293";
+
+                    //var texts = "Total",
+                    //    textsX = Math.round((width - ctx.measureText(text).width) / 1.93),
+                    //    textsY = height / 1.7;
+
+                    //ctx.fillText(texts, textsX, textsY);
+                    ctx.save();
+                }
+            }
+            var transactionhistoryChartCanvas = $("#total-ammount").get(0).getContext("2d");
+            var transactionhistoryChart = new Chart(transactionhistoryChartCanvas, {
+                type: 'doughnut',
+                data: areaData,
+                options: areaOptions,
+                plugins: transactionhistoryChartPlugins
+            });
+        }
+    </script>
+}

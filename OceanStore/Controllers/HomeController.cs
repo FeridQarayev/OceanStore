@@ -13,15 +13,17 @@ namespace OceanStore.Controllers
     [Authorize(Roles = "Admin,SuperAdmin")]
     public class HomeController : Controller
     {
-        //private readonly UserAppManager _userManager;
-        //public HomeController(UserAppManager userManager)
-        //{
-        //    _userManager = userManager;
-        //}
+        private readonly AmmountManager _ammountManager;
+        public HomeController(AmmountManager ammountManager)
+        {
+            _ammountManager = ammountManager;
+        }
 
         public async Task<IActionResult> Index()
         {
-            //var data = await _userManager.GetUsers();
+            ViewBag.Ammount = await _ammountManager.GetTotalAmmount();
+            ViewBag.ExpensesAmmount = await _ammountManager.GetTotalExpensesAmmount();
+            ViewBag.IncomesAmmount = await _ammountManager.GetTotalIncomesAmmount();
             return View();
         }
     }

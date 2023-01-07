@@ -3,6 +3,7 @@ using OceanStore.DataAccesLayer.DataContext;
 using OceanStore.DataAccesLayer.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OceanStore.BusinessLayer.Managers
@@ -39,6 +40,18 @@ namespace OceanStore.BusinessLayer.Managers
             ammount.CreateTime = DateTime.UtcNow.AddHours(4);
             ammount.CreatedBy = (await _userAppManager.GetUserByName(name)).Id;
             await AddAsync(ammount);
+        }
+        public async Task<double> GetTotalAmmount()
+        {
+            return (await GetAllAsync()).Sum(x=>x.RecorderKind? -x.Price:x.Price);
+        }
+        public async Task<double> GetTotalExpensesAmmount()
+        {
+            return (await GetAllAsync()).Sum(x=>x.RecorderKind? x.Price: 0);
+        }
+        public async Task<double> GetTotalIncomesAmmount()
+        {
+            return (await GetAllAsync()).Sum(x=>!x.RecorderKind? x.Price: 0);
         }
     }
 }
