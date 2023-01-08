@@ -20,10 +20,10 @@ namespace OceanStore.Controllers
         #region Register
         public async Task<IActionResult> Register()
         {
-            if (User.Identity.IsAuthenticated)
-            {
+            int accountsCount = await _accountManager.GetAllUsersCount();
+            if (accountsCount!=0)
                 return RedirectToAction("Login", "Account");
-            }
+            ViewBag.RolesCount = await _accountManager.GetAllRolesCount();
             return View();
         }
         [HttpPost]
@@ -100,21 +100,10 @@ namespace OceanStore.Controllers
         #endregion
 
         #region CreateRoles
-        //public async Task CreateRoles()
-        //{
-        //    if (!await _roleManager.RoleExistsAsync(Helper.Roles.SuperAdmin.ToString()))
-        //    {
-        //        await _roleManager.CreateAsync(new IdentityRole { Name = Helper.Roles.SuperAdmin.ToString() });
-        //    }
-        //    if (!await _roleManager.RoleExistsAsync(Helper.Roles.Admin.ToString()))
-        //    {
-        //        await _roleManager.CreateAsync(new IdentityRole { Name = Helper.Roles.Admin.ToString() });
-        //    }
-        //    if (!await _roleManager.RoleExistsAsync(Helper.Roles.Member.ToString()))
-        //    {
-        //        await _roleManager.CreateAsync(new IdentityRole { Name = Helper.Roles.Member.ToString() });
-        //    }
-        //}
+        public async Task CreateRoles()
+        {
+            await _accountManager.CreateAllRoles();
+        }
         #endregion
     }
 }

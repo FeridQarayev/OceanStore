@@ -68,7 +68,10 @@
                                             <input asp-for="RememberMe" class="form-check-input"> Remember me
                                         </label>
                                     </div>
-                                    <a href="#" class="forgot-pass">Forgot password</a>
+                                    @if (ViewBag.RolesCount == 0)
+                                    {
+                                        <a asp-action="CreateRoles" class="forgot-pass">Create Roles</a>
+                                    }
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary btn-block enter-btn">Login</button>

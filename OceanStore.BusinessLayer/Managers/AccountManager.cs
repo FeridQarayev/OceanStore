@@ -2,6 +2,8 @@
 using OceanStore.BusinessLayer.Helpers;
 using OceanStore.DataAccesLayer.Models;
 using OceanStore.DataAccesLayer.ViewModels;
+using System.Collections;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OceanStore.BusinessLayer.Managers
@@ -10,10 +12,12 @@ namespace OceanStore.BusinessLayer.Managers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        public AccountManager(UserManager<User> userManager, SignInManager<User> signInManager)
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public AccountManager(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
         public async Task<IdentityResult> RegisterPost(RegisterVM registerVM)
         {
@@ -44,6 +48,29 @@ namespace OceanStore.BusinessLayer.Managers
         public async Task SignOut()
         {
             await _signInManager.SignOutAsync();
+        }
+        public async Task CreateAllRoles()
+        {
+            if (!await _roleManager.RoleExistsAsync(Helper.Roles.SuperAdmin.ToString()))
+            {
+                await _roleManager.CreateAsync(new IdentityRole { Name = Helper.Roles.SuperAdmin.ToString() });
+            }
+            if (!await _roleManager.RoleExistsAsync(Helper.Roles.Admin.ToString()))
+            {
+                await _roleManager.CreateAsync(new IdentityRole { Name = Helper.Roles.Admin.ToString() });
+            }
+            if (!await _roleManager.RoleExistsAsync(Helper.Roles.Member.ToString()))
+            {
+                await _roleManager.CreateAsync(new IdentityRole { Name = Helper.Roles.Member.ToString() });
+            }
+        }
+        public async Task<int> GetAllRolesCount()
+        {
+            return (_roleManager.Roles).Count() ;
+        }
+        public async Task<int> GetAllUsersCount()
+        {
+            return (_userManager.Users).Count() ;
         }
     }
 }
