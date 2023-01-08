@@ -1915,7 +1915,7 @@ pre code {
 }
 
 .form-control:disabled, .form-control[readonly] {
-  background-color: #e9ecef;
+  /*background-color: #e9ecef;*/
   opacity: 1;
 }
 
@@ -3529,7 +3529,7 @@ input[type="button"].btn-block {
   color: #495057;
   text-align: center;
   white-space: nowrap;
-  background-color: #e9ecef;
+  /*background-color: #e9ecef;*/
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
 }
@@ -3642,7 +3642,7 @@ input[type="button"].btn-block {
 }
 
 .custom-control-input:disabled ~ .custom-control-label::before {
-  background-color: #e9ecef;
+  /*background-color: #e9ecef;*/
 }
 
 .custom-control-label {
@@ -3789,7 +3789,7 @@ input[type="button"].btn-block {
 
 .custom-select:disabled {
   color: #6c757d;
-  background-color: #e9ecef;
+  /*background-color: #e9ecef;*/
 }
 
 .custom-select::-ms-expand {
@@ -3835,7 +3835,7 @@ input[type="button"].btn-block {
 }
 
 .custom-file-input:disabled ~ .custom-file-label {
-  background-color: #e9ecef;
+  /*background-color: #e9ecef;*/
 }
 
 .custom-file-input:lang(en) ~ .custom-file-label::after {
@@ -3874,7 +3874,7 @@ input[type="button"].btn-block {
   line-height: 1.5;
   color: #495057;
   content: "Browse";
-  background-color: #e9ecef;
+  /*background-color: #e9ecef;*/
   border-left: inherit;
   border-radius: 0 0.25rem 0.25rem 0;
 }
@@ -4807,7 +4807,7 @@ input[type="button"].btn-block {
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
   list-style: none;
-  background-color: #e9ecef;
+  /*background-color: #e9ecef;*/
   border-radius: 0.25rem;
 }
 
@@ -5086,7 +5086,7 @@ a.badge-dark:focus, a.badge-dark.focus {
 .jumbotron {
   padding: 2rem 1rem;
   margin-bottom: 2rem;
-  background-color: #e9ecef;
+  /*background-color: #e9ecef;*/
   border-radius: 0.3rem;
 }
 

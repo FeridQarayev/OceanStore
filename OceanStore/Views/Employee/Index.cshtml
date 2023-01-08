@@ -21,7 +21,9 @@
                                 </div>
                             </a>
                         }
-                        <a asp-action="Create" class="btn btn-primary text-white btn-rounded" style="width:80px;height:30px;display:inline-flex;justify-content:center;align-items:center;margin-right:100px">+Create</a>
+                        <a asp-action="Create" class="btn btn-primary text-white btn-rounded" style="width:80px;height:30px;display:inline-flex;justify-content:center;align-items:center;margin-right:100px" title="Create">
+                            <i class="mdi mdi-plus"></i>
+                        </a>
                     </div>
                     <div class="table-responsive">
                         <table class="table" id="positionTable">
@@ -52,7 +54,7 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                            <a asp-action="Detail" asp-route-id="@employee.Id" class="btn btn-info btn-fw">Dl</a>
+                                            <a asp-action="Detail" asp-route-id="@employee.Id" class="badge badge-info">Detail</a>
                                             <a asp-action="Update" asp-route-id="@employee.Id" class="badge badge-warning">Update</a>
                                             <a asp-action="Activity" asp-route-id="@employee.Id" class="badge @(employee.IsDeactive ? "badge-success" : "badge-danger")">@(employee.IsDeactive ? "Activade" : "Deactivade")</a>
                                         </td>

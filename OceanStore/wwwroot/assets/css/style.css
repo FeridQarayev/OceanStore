@@ -8880,7 +8880,7 @@ pre {
   .jsgrid .jsgrid-table .jsgrid-filter-row select[readonly], .jsgrid .jsgrid-table .jsgrid-filter-row input[readonly][type=number], .select2-container--default .select2-selection--single[readonly], .select2-container--default .select2-selection--single .select2-search__field[readonly], .typeahead[readonly],
   .tt-query[readonly],
   .tt-hint[readonly] {
-    background-color: #e9ecef;
+    /*background-color: #e9ecef;*/
     opacity: 1; }
 
 input[type="date"].form-control, input.asColorPicker-input[type="date"], .jsgrid .jsgrid-table .jsgrid-filter-row input[type="date"][type=text], .jsgrid .jsgrid-table .jsgrid-filter-row input[type="date"][type=number], .select2-container--default input.select2-selection--single[type="date"], .select2-container--default .select2-selection--single input.select2-search__field[type="date"], input.typeahead[type="date"],
@@ -10776,7 +10776,7 @@ input[type="button"].btn-block {
   .custom-control-input[disabled] ~ .custom-control-label, .custom-control-input:disabled ~ .custom-control-label {
     color: #6c757d; }
     .custom-control-input[disabled] ~ .custom-control-label::before, .custom-control-input:disabled ~ .custom-control-label::before {
-      background-color: #e9ecef; }
+     /* background-color: #e9ecef;*/ }
 
 .custom-control-label {
   position: relative;
@@ -10882,7 +10882,9 @@ input[type="button"].btn-block {
     background-image: none; }
   .custom-select:disabled {
     color: #6c757d;
-    background-color: #e9ecef; }
+    /*background-color: #e9ecef;*/
+
+  }
   .custom-select::-ms-expand {
     display: none; }
   .custom-select:-moz-focusring {
@@ -10922,7 +10924,9 @@ input[type="button"].btn-block {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
   .custom-file-input[disabled] ~ .custom-file-label,
   .custom-file-input:disabled ~ .custom-file-label {
-    background-color: #e9ecef; }
+    /*background-color: #e9ecef;*/ 
+
+  }
   .custom-file-input:lang(en) ~ .custom-file-label::after {
     content: "Browse"; }
   .custom-file-input ~ .custom-file-label[data-browse]::after {
@@ -10954,7 +10958,7 @@ input[type="button"].btn-block {
     line-height: 1.5;
     color: #495057;
     content: "Browse";
-    background-color: #e9ecef;
+    /*background-color: #e9ecef;*/
     border-left: inherit;
     border-radius: 0 0.25rem 0.25rem 0; }
 
@@ -11614,7 +11618,7 @@ input[type="button"].btn-block {
     z-index: 2;
     color: #0056b3;
     text-decoration: none;
-    background-color: #e9ecef;
+    /*background-color: #e9ecef;*/
     border-color: #dee2e6; }
   .page-link:focus, .jsgrid .jsgrid-pager .jsgrid-pager-nav-button a:focus,
   .jsgrid .jsgrid-pager .jsgrid-pager-page a:focus {
@@ -11799,7 +11803,7 @@ input[type="button"].btn-block {
 .jumbotron {
   padding: 2rem 1rem;
   margin-bottom: 2rem;
-  background-color: #e9ecef;
+  /*background-color: #e9ecef;*/
   border-radius: 0.3rem; }
   @media (min-width: 576px) {
     .jumbotron {
@@ -11969,7 +11973,9 @@ input[type="button"].btn-block {
     background-color: #f8f9fa; }
   .list-group-item-action:active {
     color: #212529;
-    background-color: #e9ecef; }
+    /*background-color: #e9ecef;*/ 
+
+  }
 
 .list-group-item {
   position: relative;
