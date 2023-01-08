@@ -13,3 +13,7 @@
         left: 0;
         top: 0;
     }
+
+thead input {
+    width: 100%;
+}
