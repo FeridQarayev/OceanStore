@@ -24,29 +24,27 @@
                         <a asp-action="Create" class="btn btn-primary text-white btn-rounded" style="width:80px;height:30px;display:inline-flex;justify-content:center;align-items:center;margin-right:100px">+Create</a>
                     </div>
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table" id="positionTable">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
-                                    <th>Ad</th>
-                                    <th>Vəzifə</th>
-                                    <th>Email</th>
-                                    <th>Status</th>
-                                    <th>Əməliyyatlar</th>
+                                    <th class="text-center">Ad</th>
+                                    <th class="text-center">Vəzifə</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Əməliyyatlar</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (Employee employee in Model)
                                 {
                                     <tr>
-                                        <td>@employee.Id</td>
-                                        <td>@employee.Name</td>
-                                        <td>@employee.Position.Name</td>
-                                        <td>@employee.Email</td>
-                                        <td>
+                                        <td class="text-center">@employee.Name</td>
+                                        <td class="text-center">@employee.Position.Name</td>
+                                        <td class="text-center">@employee.Email</td>
+                                        <td class="text-center">
                                             <span class="@(employee.IsDeactive? "text-danger" : "text-success")">@(employee.IsDeactive ? "Deactive" : "Active")</span>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <a asp-controller="Mail" asp-action="Index" asp-route-id="@employee.Id" title="Email Gonder" class="badge badge-danger">
                                                 <div class="preview-thumbnail">
                                                     <div class="preview-icon bg-danger">
@@ -54,7 +52,7 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                            <a asp-action="Detail" asp-route-id="@employee.Id" class="btn btn-info btn-fw">Detail</a>
+                                            <a asp-action="Detail" asp-route-id="@employee.Id" class="btn btn-info btn-fw">Dl</a>
                                             <a asp-action="Update" asp-route-id="@employee.Id" class="badge badge-warning">Update</a>
                                             <a asp-action="Activity" asp-route-id="@employee.Id" class="badge @(employee.IsDeactive ? "badge-success" : "badge-danger")">@(employee.IsDeactive ? "Activade" : "Deactivade")</a>
                                         </td>
@@ -77,3 +75,58 @@
 </div>
 @*</div>*@
 <!-- content-wrapper ends -->
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#positionTable thead tr').clone(true).addClass('filters').appendTo('#positionTable thead');
+            $('#positionTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
+                rowReorder: {
+                    dataSrc: 'question_order',
+                    selector: 'tr'
+                },
+                responsive: true,
+                columnDefs: [
+                    { orderable: true, className: 'reorder', targets: '_all' },
+                    { orderable: false, targets: '_all' }
+                ],
+                scrollY: '200px',
+                colReorder: true,
+
+
+                orderCellsTop: true,
+                fixedHeader: true,
+                initComplete: function () {
+                    var api = this.api();
+                    // For each column
+                    api.columns().eq(0).each(function (colIdx) {
+                        // Set the header cell to contain the input element
+                        var cell = $('.filters th').eq($(api.column(colIdx).header()).index());
+                        var title = $(cell).text();
+                        $(cell).html('<input type="text" placeholder="' + title + '" />');
+                        // On every keypress in this input
+                        $('input', $('.filters th').eq($(api.column(colIdx).header()).index()))
+                            .off('keyup change')
+                            .on('keyup change', function (e) {
+                                e.stopPropagation();
+                                // Get the search value
+                                $(this).attr('title', $(this).val());
+                                var regexr = '({search})'; //$(this).parents('th').find('select').val();
+                                var cursorPosition = this.selectionStart;
+                                // Search the column for that value
+                                api
+                                    .column(colIdx)
+                                    .search((this.value != "") ? regexr.replace('{search}', '(((' + this.value + ')))') : "", this.value != "", this.value == "")
+                                    .draw();
+                                $(this).focus()[0].setSelectionRange(cursorPosition, cursorPosition);
+                            });
+                    });
+                }
+            });
+        });
+
+    </script>
+}
