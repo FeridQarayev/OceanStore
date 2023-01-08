@@ -11,22 +11,22 @@
                     <a asp-action="Create" class="btn btn-primary text-white btn-rounded" style="width:80px;height:30px;display:inline-flex;justify-content:center;align-items:center;margin-right:100px">+Create</a>
                 </div>
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table" id="positionTable">
                         <thead>
                             <tr>
-                                <th>Şəkil</th>
-                                <th>Ad</th>
+                                <th class="text-center">Şəkil</th>
+                                <th class="text-center">Ad</th>
                                 <th class="text-center">Əsasdı</th>
-                                <th>Alt Kateqoriyalar</th>
-                                <th>Status</th>
-                                <th>Əməliyyatlar</th>
+                                <th class="text-center">Alt Kateqoriyalar</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Əməliyyatlar</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (Category category in Model)
                             {
                                 <tr>
-                                    <td>
+                                    <td class="text-center">
                                         @if (category.Image?.Length > 1)
                                         {
                                             <img style="width:100px;height:100px;object-fit:cover" src="~/assets/images/category/@category.Image" />
@@ -36,8 +36,8 @@
                                             <span>Not have Image</span>
                                         }
                                     </td>
-                                    <td>@category.Name</td>
-                                    <td>
+                                    <td class="text-center">@category.Name</td>
+                                    <td class="text-center">
                                         @if (category.IsMain)
                                         {
                                             <input type="checkbox" class="form-control" checked disabled />
@@ -47,16 +47,16 @@
                                             <input type="checkbox" class="form-control" disabled />
                                         }
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @foreach (Category child in category?.Children)
                                         {
                                             <div>@child.Name</div>
                                         }
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         <span class="@(category.IsDeactive? "text-danger" : "text-success")">@(category.IsDeactive ? "Deactive" : "Active")</span>
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @*<a asp-action="Update" asp-route-id="@category.Id" class="badge badge-warning">Update</a>*@
                                         <a asp-action="Activity" asp-route-id="@category.Id" class="badge @(category.IsDeactive ? "badge-success" : "badge-danger")">@(category.IsDeactive ? "Activade" : "Deactivade")</a>
                                         <a asp-action="Delete" asp-route-id="@category.Id" class="badge badge-warning">Delete</a>
@@ -72,3 +72,58 @@
 </div>
 @*</div>*@
 <!-- content-wrapper ends -->
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#positionTable thead tr').clone(true).addClass('filters').appendTo('#positionTable thead');
+            $('#positionTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
+                rowReorder: {
+                    dataSrc: 'question_order',
+                    selector: 'tr'
+                },
+                responsive: true,
+                columnDefs: [
+                    { orderable: true, className: 'reorder', targets: '_all' },
+                    { orderable: false, targets: '_all' }
+                ],
+                scrollY: '200px',
+                colReorder: true,
+
+
+                orderCellsTop: true,
+                fixedHeader: true,
+                initComplete: function () {
+                    var api = this.api();
+                    // For each column
+                    api.columns().eq(0).each(function (colIdx) {
+                        // Set the header cell to contain the input element
+                        var cell = $('.filters th').eq($(api.column(colIdx).header()).index());
+                        var title = $(cell).text();
+                        $(cell).html('<input type="text" placeholder="' + title + '" />');
+                        // On every keypress in this input
+                        $('input', $('.filters th').eq($(api.column(colIdx).header()).index()))
+                            .off('keyup change')
+                            .on('keyup change', function (e) {
+                                e.stopPropagation();
+                                // Get the search value
+                                $(this).attr('title', $(this).val());
+                                var regexr = '({search})'; //$(this).parents('th').find('select').val();
+                                var cursorPosition = this.selectionStart;
+                                // Search the column for that value
+                                api
+                                    .column(colIdx)
+                                    .search((this.value != "") ? regexr.replace('{search}', '(((' + this.value + ')))') : "", this.value != "", this.value == "")
+                                    .draw();
+                                $(this).focus()[0].setSelectionRange(cursorPosition, cursorPosition);
+                            });
+                    });
+                }
+            });
+        });
+
+    </script>
+}
