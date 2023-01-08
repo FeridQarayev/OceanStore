@@ -39,9 +39,12 @@
                                         <span class="@(user.IsDeactive? "text-danger" : "text-success")">@(user.IsDeactive ? "Deactive" : "Active")</span>
                                     </td>
                                     <td class="text-center">
-                                        <a asp-action="ResetPassword" asp-route-id="@user.Id" class="badge badge-info">Reset Password</a>
-                                        <a asp-action="Update" asp-route-id="@user.Id" class="badge badge-warning">Update</a>
-                                        <a asp-action="Activity" asp-route-id="@user.Id" class="badge @(user.IsDeactive ? "badge-success" : "badge-danger")">@(user.IsDeactive ? "Activade" : "Deactivade")</a>
+                                        @if (User.Identity.Name!=user.Username)
+                                        {
+                                            <a asp-action="ResetPassword" asp-route-id="@user.Id" class="badge badge-info">Reset Password</a>
+                                            <a asp-action="Update" asp-route-id="@user.Id" class="badge badge-warning">Update</a>
+                                            <a asp-action="Activity" asp-route-id="@user.Id" class="badge @(user.IsDeactive ? "badge-success" : "badge-danger")">@(user.IsDeactive ? "Activade" : "Deactivade")</a>
+                                        }
                                     </td>
                                 </tr>
                             }
