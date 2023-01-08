@@ -2,7 +2,6 @@
 using OceanStore.BusinessLayer.Helpers;
 using OceanStore.DataAccesLayer.Models;
 using OceanStore.DataAccesLayer.ViewModels;
-using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,7 +33,7 @@ namespace OceanStore.BusinessLayer.Managers
                 return identityResult;
             }
             await _signInManager.SignInAsync(appUser, registerVM.RememberMe);
-            await _userManager.AddToRoleAsync(appUser, Helper.Roles.Admin.ToString());
+            await _userManager.AddToRoleAsync(appUser, Helper.Roles.SuperAdmin.ToString());
             return identityResult;
         }
         public async Task<User> FindBynNameUser(string username)

@@ -1,6 +1,8 @@
 ﻿@model List<Ammount>
 @{
-    ViewData["Title"] = "Index";
+    bool isSuperAdmin = ((ClaimsIdentity)User.Identity).Claims
+    .Where(c => c.Type == ClaimTypes.Role)
+    .Select(c => c.Value).Any(x => x.Equals("SuperAdmin"));
 }
 
 <!-- partial -->
@@ -21,21 +23,40 @@
                                 <th class="text-center">Gəlir Haqqında</th>
                                 <th class="text-center">Gəlirin yaranma vaxtı</th>
                                 <th class="text-center">Qeyd edən şəxs</th>
-                                <th class="text-center">Əməliyyatlar</th>
+                                @if (isSuperAdmin)
+                                {
+                                    <th class="text-center">Əməliyyatlar</th>
+                                }
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (Ammount ammount in Model)
+                            @if (isSuperAdmin)
                             {
-                                <tr>
-                                    <td class="text-center">@ammount.Price</td>
-                                    <td class="text-center">@ammount.Description</td>
-                                    <td class="text-center">@ammount.CreateTime.ToString("dd-MM-yyyy HH:mm:ss")</td>
-                                    <td class="text-center">@ammount.CreatedBy</td>
-                                    <td class="text-center">
-                                        <a asp-action="Delete" asp-route-id="@ammount.Id" class="badge badge-danger">Delete</a>
-                                    </td>
-                                </tr>
+                                @foreach (Ammount ammount in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center">@ammount.Price</td>
+                                        <td class="text-center">@ammount.Description</td>
+                                        <td class="text-center">@ammount.CreateTime.ToString("dd-MM-yyyy HH:mm:ss")</td>
+                                        <td class="text-center">@ammount.CreatedBy</td>
+                                        <td class="text-center">
+                                            <a asp-action="Delete" asp-route-id="@ammount.Id" class="badge badge-danger">Delete</a>
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                @foreach (Ammount ammount in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center">@ammount.Price</td>
+                                        <td class="text-center">@ammount.Description</td>
+                                        <td class="text-center">@ammount.CreateTime.ToString("dd-MM-yyyy HH:mm:ss")</td>
+                                        <td class="text-center">@ammount.CreatedBy</td>
+                                    </tr>
+                                }
                             }
                         </tbody>
                     </table>

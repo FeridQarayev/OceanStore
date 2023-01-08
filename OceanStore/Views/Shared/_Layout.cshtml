@@ -123,38 +123,46 @@
                         <span class="menu-title">Form Elements</span>
                     </a>
                 </li>*@
-                <li class="nav-item menu-items">
-                    <a class="nav-link" asp-controller="Position" asp-action="Index">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-wallet-travel"></i>
-                        </span>
-                        <span class="menu-title">Vəzifələr</span>
-                    </a>
-                </li>
-                <li class="nav-item menu-items">
-                    <a class="nav-link" asp-controller="Employee" asp-action="Index">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-account-multiple-outline"></i>
-                        </span>
-                        <span class="menu-title">İşçilər</span>
-                    </a>
-                </li>
-                <li class="nav-item menu-items">
-                    <a class="nav-link" asp-controller="User" asp-action="Index">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-contacts"></i>
-                        </span>
-                        <span class="menu-title">Users</span>
-                    </a>
-                </li>
-                <li class="nav-item menu-items">
-                    <a class="nav-link" asp-controller="Category" asp-action="Index">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-cards-playing-outline"></i>
-                        </span>
-                        <span class="menu-title">Kateqoriyalar</span>
-                    </a>
-                </li>
+                @{
+                    bool isSuperAdmin = ((ClaimsIdentity)User.Identity).Claims
+                    .Where(c => c.Type == ClaimTypes.Role)
+                    .Select(c => c.Value).Any(x => x.Equals("SuperAdmin"));
+                }
+                @if (isSuperAdmin)
+                {
+                    <li class="nav-item menu-items">
+                        <a class="nav-link" asp-controller="Position" asp-action="Index">
+                            <span class="menu-icon">
+                                <i class="mdi mdi-wallet-travel"></i>
+                            </span>
+                            <span class="menu-title">Vəzifələr</span>
+                        </a>
+                    </li>
+                    <li class="nav-item menu-items">
+                        <a class="nav-link" asp-controller="Category" asp-action="Index">
+                            <span class="menu-icon">
+                                <i class="mdi mdi-cards-playing-outline"></i>
+                            </span>
+                            <span class="menu-title">Kateqoriyalar</span>
+                        </a>
+                    </li>
+                    <li class="nav-item menu-items">
+                        <a class="nav-link" asp-controller="Employee" asp-action="Index">
+                            <span class="menu-icon">
+                                <i class="mdi mdi-account-multiple-outline"></i>
+                            </span>
+                            <span class="menu-title">İşçilər</span>
+                        </a>
+                    </li>
+                    <li class="nav-item menu-items">
+                        <a class="nav-link" asp-controller="User" asp-action="Index">
+                            <span class="menu-icon">
+                                <i class="mdi mdi-contacts"></i>
+                            </span>
+                            <span class="menu-title">Users</span>
+                        </a>
+                    </li>
+                }
                 <li class="nav-item menu-items">
                     <a class="nav-link" asp-controller="Product" asp-action="Index">
                         <span class="menu-icon">

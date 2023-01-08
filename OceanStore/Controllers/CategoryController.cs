@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OceanStore.Controllers
 {
-    [Authorize(Roles = "Admin,SuperAdmin")]
+    [Authorize(Roles = "SuperAdmin")]
     public class CategoryController : Controller
     {
         #region ctor

@@ -60,7 +60,10 @@
                                         <i class="mdi mdi-google-plus"></i> Google plus
                                     </button>
                                 </div>*@
-                                <p class="sign-up">Don't have an Account?<a asp-action="Register"> Sign Up</a></p>
+                                @if (ViewBag.AccountCount == 0)
+                                {
+                                    <p class="sign-up">Don't have an Account?<a asp-action="Register"> Sign Up</a></p>
+                                }
                             </form>
                         </div>
                     </div>

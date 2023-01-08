@@ -44,6 +44,7 @@ namespace OceanStore.Controllers
         #endregion
 
         #region Delete
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
