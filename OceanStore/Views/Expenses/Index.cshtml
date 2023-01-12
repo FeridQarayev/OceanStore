@@ -13,10 +13,13 @@
             <div class="card-body">
                 <h4 class="card-title">Xərclər</h4>
                 <div style="text-align:end">
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-info btn-icon-text btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="getEmployeeSalary()">
-                        Maaşların ödənilməsi
-                    </button>
+                    @if (isSuperAdmin && ViewBag.EmployeeCount>0)
+                    {
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-info btn-icon-text btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="getEmployeeSalary()">
+                            Maaşların ödənilməsi
+                        </button>
+                    }
                     <a asp-action="Create" class="btn btn-primary text-white btn-rounded" style="width:80px;height:30px;display:inline-flex;justify-content:center;align-items:center;margin-right:100px" title="Create">
                         <i class="mdi mdi-plus"></i>
                     </a>
@@ -155,7 +158,6 @@
                     url: "/Expenses/EmployeeSalary",
                     dataType: "json",
                     success: function (response) {
-                        console.log(response);
                         totalSalaryInp.textContent = response
                     }
                 });
@@ -169,7 +171,6 @@
                     url: "/Expenses/PayEmployeeSalary",
                     dataType: "json",
                     success: function (response) {
-                        console.log(response);
                         alert(response.message);
                         $('#closeBtn').click();
                         location.reload()
