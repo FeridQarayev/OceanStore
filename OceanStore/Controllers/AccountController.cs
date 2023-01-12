@@ -80,7 +80,7 @@ namespace OceanStore.Controllers
                 ModelState.AddModelError("", "This account has been deactivated");
                 return View();
             }
-            Microsoft.AspNetCore.Identity.SignInResult signInResult = await _accountManager.PasswordCheck(appUser, loginVM.Password, loginVM.RememberMe);
+            Microsoft.AspNetCore.Identity.SignInResult signInResult = await _accountManager.PasswordCheck(appUser, loginVM.Password, true);
             if (signInResult.IsLockedOut)
             {
                 ModelState.AddModelError("", "1 day banned!");

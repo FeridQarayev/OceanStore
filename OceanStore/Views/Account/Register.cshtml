@@ -62,17 +62,13 @@
                                     <input asp-for="ConfirmPassword" class="form-control p_input">
                                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                                 </div>
-                                <div class="form-group d-flex align-items-center justify-content-between">
+                                @*<div class="form-group d-flex align-items-center justify-content-between">
                                     <div class="form-check">
                                         <label class="form-check-label">
                                             <input asp-for="RememberMe" class="form-check-input"> Remember me
                                         </label>
                                     </div>
-                                    @if (ViewBag.RolesCount == 0)
-                                    {
-                                        <a asp-action="CreateRoles" class="forgot-pass">Create Roles</a>
-                                    }
-                                </div>
+                                </div>*@
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary btn-block enter-btn">Login</button>
                                 </div>

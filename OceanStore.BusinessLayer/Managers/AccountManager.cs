@@ -32,7 +32,7 @@ namespace OceanStore.BusinessLayer.Managers
             {
                 return identityResult;
             }
-            await _signInManager.SignInAsync(appUser, registerVM.RememberMe);
+            await _signInManager.SignInAsync(appUser, true);
             await _userManager.AddToRoleAsync(appUser, Helper.Roles.SuperAdmin.ToString());
             return identityResult;
         }
