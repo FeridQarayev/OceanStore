@@ -2,6 +2,7 @@
 using OceanStore.BusinessLayer.Repositorys;
 using OceanStore.DataAccesLayer.DataContext;
 using OceanStore.DataAccesLayer.Models;
+using OceanStore.DataAccesLayer.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,12 @@ namespace OceanStore.BusinessLayer.Managers
     {
         private readonly UserAppManager _userAppManager;
         private readonly AppDbCotext _db;
-        public AmmountManager(AppDbCotext db, UserAppManager userAppManager) : base(db)
+        private readonly EmployeeManager _employeeManager;
+        public AmmountManager(AppDbCotext db, UserAppManager userAppManager, EmployeeManager employeeManager) : base(db)
         {
             _db = db;
             _userAppManager = userAppManager;
+            _employeeManager = employeeManager;
         }
         public async override Task<List<Ammount>> GetAllAsync(Expression<Func<Ammount, bool>> filter = null)
         {
@@ -81,6 +84,30 @@ namespace OceanStore.BusinessLayer.Managers
         {
             return (await GetAllAsync(x => x.CreateTime >= DateTime.UtcNow.AddDays(-day))).Sum(x => !x.RecorderKind ? x.Price : 0);
         }
-        
+        public async Task<PayEmployeeSalary> PayEmployeeSalary(string name)
+        {
+            double totalSalary = await GetTotalEmployeeSalary();
+            if (totalSalary == 0)
+                return new PayEmployeeSalary() { Salary = 0, Message = "Ödəniş uğursuz keçdi" };
+            double totalAmmount = await GetTotalAmmount();
+            if (totalSalary >= totalAmmount)
+                return new PayEmployeeSalary() { Salary = totalSalary, Message = "Ödəniş uğursuz keçdi məbləğ yetərsizdi" };
+            Ammount ammount = new Ammount()
+            {
+                Description = "Maaşların ödənməsi",
+                RecorderKind = true,
+                Price = totalSalary
+            };
+            await CreateAmmount(ammount, name);
+            return new PayEmployeeSalary() { Salary = totalSalary, Message = "Ödəniş uğurlu keçdi" };
+        }
+        public async Task<double> GetTotalEmployeeSalary()
+        {
+            List<Employee> employees = await _employeeManager.GetAllEmployee();
+            if (employees == null)
+                return 0;
+            double totalsalary = employees.Sum(x => x.Position.Salary);
+            return totalsalary;
+        }
     }
 }
