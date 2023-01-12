@@ -23,7 +23,11 @@ namespace OceanStore.Controllers
             int accountsCount = await _accountManager.GetAllUsersCount();
             if (accountsCount != 0)
                 return RedirectToAction("Login", "Account");
-            ViewBag.RolesCount = await _accountManager.GetAllRolesCount();
+            int rolesCount = await _accountManager.GetAllRolesCount();
+            if (rolesCount == 0)
+            {
+                await _accountManager.CreateAllRoles();
+            }
             return View();
         }
         [HttpPost]
@@ -44,18 +48,17 @@ namespace OceanStore.Controllers
                 }
                 return View();
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
         #endregion
 
         #region Login
         public async Task<IActionResult> Login()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            ViewBag.AccountCount = await _accountManager.GetAllUsersCount();
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
             return View();
         }
         [HttpPost]
@@ -97,13 +100,6 @@ namespace OceanStore.Controllers
         {
             await _accountManager.SignOut();
             return RedirectToAction("Index", "Home");
-        }
-        #endregion
-
-        #region CreateRoles
-        public async Task CreateRoles()
-        {
-            await _accountManager.CreateAllRoles();
         }
         #endregion
     }
